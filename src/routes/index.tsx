@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
-import { Reaction } from '@/features/reaction';
+import { Reaction, Onboard } from '@/features/reaction';
 
 const App: React.FC = () => (
   <React.Suspense fallback={<div>loading...x</div>}>
@@ -15,6 +15,7 @@ const publicRoutes = [
     element: <App />,
     children: [
       { path: '/', element: <Reaction /> },
+      { path: '/onboard', element: <Onboard /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
   },
