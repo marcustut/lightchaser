@@ -1,7 +1,11 @@
 import { Container, Text } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 
+import { useKeyPress } from '@/hooks';
+
 export const Reaction: React.FC = () => {
+  const isPressed = useKeyPress({ targetKey: 'n' });
+  const [isNeon, setIsNeon] = useState(false);
   const [identities] = useState([
     '大能的勇士',
     '天父的儿女',
@@ -23,6 +27,12 @@ export const Reaction: React.FC = () => {
     return () => clearInterval(interval);
   }, [identities]);
 
+  useEffect(() => {
+    if (isPressed && isNeon) setIsNeon(false);
+    else if (isPressed && !isNeon) setIsNeon(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPressed]);
+
   return (
     <Container fluid display="flex" justify="center" alignItems="center" css={{ height: '100vh' }}>
       <Text
@@ -32,7 +42,7 @@ export const Reaction: React.FC = () => {
           letterSpacing: '$wide',
           fontFamily: 'DOUYU',
         }}
-        className="neon"
+        className={isNeon ? 'neon' : ''}
       >
         {identity}
       </Text>
