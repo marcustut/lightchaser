@@ -1,9 +1,9 @@
 import { Container, Text } from '@nextui-org/react';
-import React, { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 import { useKeyPress } from '@/hooks';
 
-export const Reaction: React.FC = () => {
+export const Reaction: FunctionComponent = () => {
   const isPressed = useKeyPress({ targetKey: 'n' });
   const [isNeon, setIsNeon] = useState(false);
   const [identities] = useState([

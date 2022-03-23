@@ -1,9 +1,9 @@
 import { Container, Row, Progress, Image, Text } from '@nextui-org/react';
-import React, { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 const SECONDS = 60;
 
-export const Onboard: React.FC = () => {
+export const Onboard: FunctionComponent = () => {
   const [seconds, setSeconds] = useState(SECONDS);
 
   useEffect(() => {

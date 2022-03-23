@@ -1,12 +1,12 @@
-import React from 'react';
+import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { Reaction, Onboard } from '@/features/reaction';
 
-const App: React.FC = () => (
-  <React.Suspense fallback={<div>loading...x</div>}>
+const App: FunctionComponent = () => (
+  <Suspense fallback={<div>loading...x</div>}>
     <Outlet />
-  </React.Suspense>
+  </Suspense>
 );
 
 const publicRoutes = [
@@ -21,7 +21,7 @@ const publicRoutes = [
   },
 ];
 
-export const AppRoutes: React.FC = () => {
+export const AppRoutes: FunctionComponent = () => {
   const element = useRoutes([...publicRoutes]);
   return element;
 };

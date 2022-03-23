@@ -1,9 +1,9 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 
 import { AppProvider } from './providers/AppProvider';
 import { AppRoutes } from './routes';
 
-const App: React.FC = () => {
+const App: FunctionComponent = () => {
   return (
     <AppProvider>
       <AppRoutes />
