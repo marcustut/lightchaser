@@ -9,11 +9,11 @@ export const Reaction: FunctionComponent = () => {
   const [identities] = useState([
     '大能的勇士',
     '天父的儿女',
-    '属灵继承者',
+    '属天的继承者',
     '历史缔造者',
-    '被拣选的使者',
-    '神国筑建者',
-    '基督拥趸者',
+    '被拣选族类',
+    '君尊的祭司',
+    '基督的拥趸',
   ]);
   const [identity, setIdentity] = useState(
     identities[Math.floor(Math.random() * identities.length)]
