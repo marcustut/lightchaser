@@ -118,11 +118,12 @@ export const Live: FunctionComponent = () => {
         width={500}
         style={{
           position: 'absolute',
-          bottom: theme.space.lg.value,
-          left: theme.space.lg.value,
+          top: '150px',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
         }}
       />
-      <img
+      {/* <img
         src="/images/LightChaser_LogoGreen.png"
         alt="LightChaser's logo"
         width={500}
@@ -131,7 +132,7 @@ export const Live: FunctionComponent = () => {
           bottom: theme.space.lg.value,
           right: theme.space.lg.value,
         }}
-      />
+      /> */}
       <img
         src="/images/LightChaser_BackgroundCentreScreen.png"
         alt="LightChaser's BG"
