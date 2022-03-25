@@ -7,5 +7,5 @@ const commonPlugins: (PluginOption | PluginOption[])[] = [tsconfigPaths()];
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: mode === 'development' ? [react(), ...commonPlugins] : [...commonPlugins],
-  esbuild: { jsxInject: `import * as React from 'react'` },
+  esbuild: mode === 'development' ? undefined : { jsxInject: `import * as React from 'react'` },
 }));

@@ -2,6 +2,7 @@ import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { Reaction, Onboard } from '@/features/reaction';
+import { Live } from '@/features/registration';
 
 const App: FunctionComponent = () => (
   <Suspense fallback={<div>loading...x</div>}>
@@ -16,6 +17,7 @@ const publicRoutes = [
     children: [
       { path: '/', element: <Reaction /> },
       { path: '/onboard', element: <Onboard /> },
+      { path: '/live', element: <Live /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
   },
