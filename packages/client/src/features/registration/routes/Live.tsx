@@ -1,4 +1,4 @@
-import { Progress, Text, Grid, Loading, User } from '@nextui-org/react';
+import { Progress, Text, Grid, Loading, User, useTheme } from '@nextui-org/react';
 import { Registration } from '@opening/server/dist/entity/registration';
 import confetti from 'canvas-confetti';
 import { FunctionComponent, useMemo, useState } from 'react';
@@ -27,6 +27,7 @@ const satelliteColors: Record<
 };
 
 export const Live: FunctionComponent = () => {
+  const { theme } = useTheme();
   const [registrations, setRegistrations] = useState<Registration[]>();
   trpc.useSubscription(['registration', undefined], {
     onNext({ registrations: newRegistrations }) {
@@ -57,25 +58,93 @@ export const Live: FunctionComponent = () => {
     [registrations]
   );
 
+  if (!theme) throw new Error('theme is not provided');
+
   return (
-    <>
-      <Grid.Container justify="center" alignItems="center" css={{ h: '100vh', padding: '$96' }}>
-        {registrations ? (
-          <Text
-            h1
-            size={180}
-            css={{
-              textAlign: 'center',
-              textGradient: '45deg, $purple500 -20%, $pink500 100%',
+    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
+      <Grid.Container
+        justify="center"
+        alignItems="center"
+        css={{
+          position: 'absolute',
+          h: '100vh',
+          padding: '$96',
+          zIndex: 10,
+        }}
+      >
+        <div
+          style={{
+            // background: theme.colors.accents1.value,
+            position: 'relative',
+            width: '100%',
+            padding: '0px 64px 128px 64px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          {registrations ? (
+            <Text
+              h1
+              size={180}
+              css={{
+                textAlign: 'center',
+                textGradient: '45deg, $cyan400 -20%, #04dd01 100%',
+              }}
+            >
+              {50 - registrations.length} seats remaining!
+            </Text>
+          ) : (
+            <Loading size="xl" color="success" css={{ marginTop: '$12', marginBottom: '$16' }} />
+          )}
+          <Progress indeterminated value={50} color="success" status="success" shadow />
+          <div
+            style={{
+              position: 'absolute',
+              background: theme.colors.accents1.value,
+              opacity: '50%',
+              width: '100%',
+              height: '100%',
+              borderRadius: theme.radii.xl.value,
+              zIndex: -1,
             }}
-          >
-            {50 - registrations.length} seats remaining!
-          </Text>
-        ) : (
-          <Loading size="xl" color="secondary" />
-        )}
-        <Progress indeterminated value={50} color="gradient" status="secondary" shadow />
+          />
+        </div>
       </Grid.Container>
+      <img
+        src="/images/LightChaser_Logo.png"
+        alt="LightChaser's logo"
+        width={500}
+        style={{
+          position: 'absolute',
+          bottom: theme.space.lg.value,
+          left: theme.space.lg.value,
+        }}
+      />
+      <img
+        src="/images/LightChaser_LogoGreen.png"
+        alt="LightChaser's logo"
+        width={500}
+        style={{
+          position: 'absolute',
+          bottom: theme.space.lg.value,
+          right: theme.space.lg.value,
+        }}
+      />
+      <img
+        src="/images/LightChaser_BackgroundCentreScreen.png"
+        alt="LightChaser's BG"
+        width={4608}
+        style={{
+          opacity: '25%',
+          position: 'absolute',
+          bottom: '0px',
+          left: '0px',
+          top: '0px',
+          right: '0px',
+        }}
+      />
       {registrations && (
         <>
           {firstHalfRegistrations.map((reg) => (
@@ -118,6 +187,6 @@ export const Live: FunctionComponent = () => {
           ))}
         </>
       )}
-    </>
+    </div>
   );
 };
