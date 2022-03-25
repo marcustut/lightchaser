@@ -67,7 +67,7 @@ const handler = createHTTPHandler({
   },
 });
 
-const server = http.createServer((req, res) => {
+const createServerHandler = (req: http.IncomingMessage, res: http.ServerResponse) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
@@ -79,7 +79,9 @@ const server = http.createServer((req, res) => {
     return;
   }
   handler(req, res);
-});
+};
+
+const server = http.createServer(createServerHandler);
 
 // ws server
 const wss = new ws.Server({ server });
@@ -99,4 +101,4 @@ wss.on('connection', (ws) => {
 });
 console.log('✅ WebSocket Server listening on ws://localhost:2022');
 
-server.listen(2022);
+server.listen(process.env.PORT ?? 2022);

@@ -2,6 +2,7 @@ const envKeys = [
   'GOOGLE_SPREADSHEET_ID',
   'GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL',
   'GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY',
+  'NODE_ENV',
 ] as const;
 
 type Env = Record<typeof envKeys[number], string>;
