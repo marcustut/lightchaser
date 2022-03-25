@@ -39,6 +39,7 @@ export const appRouter = trpc
       const sheet = doc.sheetsByIndex[0];
 
       let registrations: Registration[] = [];
+      let firstSend = false;
 
       return new trpc.Subscription<{ registrations: Registration[] }>((emit) => {
         const timer = setInterval(async () => {
@@ -49,6 +50,11 @@ export const appRouter = trpc
           if (!arrayEquals(registrations, data)) {
             registrations = data;
             emit.data({ registrations: data });
+          }
+          // if empty, then send if it's the first
+          if (!firstSend) {
+            emit.data({ registrations: [] });
+            firstSend = true;
           }
         }, 3000);
 
