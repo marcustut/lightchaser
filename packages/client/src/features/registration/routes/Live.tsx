@@ -1,7 +1,7 @@
 import { Progress, Text, Grid, Loading, User, useTheme } from '@nextui-org/react';
 import { Registration } from '@opening/server/dist/entity/registration';
 import confetti from 'canvas-confetti';
-import { FunctionComponent, useMemo, useState } from 'react';
+import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 
 import { trpc } from '@/lib/trpc';
 import { levitating } from '@/utils/animation';
@@ -48,6 +48,8 @@ export const Live: FunctionComponent = () => {
     },
   });
 
+  useEffect(() => console.log(registrations), [registrations]);
+
   const firstHalfRegistrations = useMemo(
     () => (registrations ? registrations.slice(0, registrations.length / 2) : []),
     [registrations]
@@ -90,7 +92,8 @@ export const Live: FunctionComponent = () => {
               size={180}
               css={{
                 textAlign: 'center',
-                textGradient: '45deg, $cyan400 -20%, #04dd01 100%',
+                // textGradient: '45deg, $cyan400 -20%, #04dd01 100%',
+                color: '#04dd01',
               }}
             >
               {50 - registrations.length} seats remaining!
