@@ -25,20 +25,13 @@ export const CountDown: React.FC = () => {
   };
 
   return (
-    // FIXME: Issue with height and width
-    <div
-      style={{
-        width: '100vh',
-        height: '100vh',
-        margin: 'auto',
-        padding: '1.75rem',
-      }}
-    >
+    <div className="flex p-7 md:p-20 justify-center w-screen h-screen">
       <CircularProgressbar
         text={timeLeft()}
         value={seconds}
         maxValue={SESSIONTIMEINSECONDS}
         strokeWidth={5}
+        className="font-lato font-black text-[1.5rem]"
         styles={{
           text: { fill: '#FFF', fontFamily: 'Lato', fontSize: '1.5rem', fontWeight: 'black' },
           path: {
