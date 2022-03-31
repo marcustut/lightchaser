@@ -153,6 +153,7 @@ export const Live: FunctionComponent = () => {
         <>
           {firstHalfRegistrations.map((reg) => (
             <User
+              size="xl"
               bordered
               color={satelliteColors[reg.satellite.trim().toLowerCase()]}
               key={`${reg.name}-${reg.phone_number}`}
@@ -172,6 +173,7 @@ export const Live: FunctionComponent = () => {
           ))}
           {lastHalfRegistrations.map((reg) => (
             <User
+              size="xl"
               bordered
               color={satelliteColors[reg.satellite.trim().toLowerCase()]}
               key={`${reg.name}-${reg.phone_number}`}
@@ -186,7 +188,9 @@ export const Live: FunctionComponent = () => {
                 animation: `${levitating} 12s ease infinite`,
               }}
             >
-              {reg.cg.split(' ').join('')} @{reg.satellite}
+              <Text h5>
+                {reg.cg.split(' ').join('')} @{reg.satellite}
+              </Text>
             </User>
           ))}
         </>
