@@ -1,4 +1,4 @@
-import { createTheme, NextUIProvider } from '@nextui-org/react';
+import { NextUIProvider } from '@nextui-org/react';
 import { AppRouter } from '@opening/server/dist/index';
 import { wsLink, createWSClient } from '@trpc/client/links/wsLink';
 import { FunctionComponent, Suspense, useState } from 'react';
@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 
 import { trpc } from '@/lib/trpc';
+import { theme } from '@/utils/theme';
 
 function getEndingLink() {
   const client = createWSClient({
@@ -28,7 +29,7 @@ export const AppProvider: FunctionComponent = ({ children }) => {
     <Suspense fallback={<div>TODO fallback</div>}>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
-          <NextUIProvider theme={createTheme({ type: 'dark' })}>
+          <NextUIProvider theme={theme}>
             <BrowserRouter>{children}</BrowserRouter>
           </NextUIProvider>
         </QueryClientProvider>
