@@ -1,6 +1,7 @@
 import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
+import { ARCamera } from '@/features/ar/routes/ARCamera';
 import { CountDown } from '@/features/game';
 import { Reaction } from '@/features/reaction';
 // import { Live } from '@/features/registration';
@@ -19,6 +20,7 @@ const publicRoutes = [
       { path: '/', element: <Reaction /> },
       // { path: '/onboard', element: <Onboard /> },
       // { path: '/live', element: <Live /> },
+      { path: '/ar', element: <ARCamera /> },
       { path: '/timer', element: <CountDown /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
