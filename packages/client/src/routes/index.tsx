@@ -1,7 +1,7 @@
 import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
-import { ARCamera } from '@/features/ar/routes/ARCamera';
+import { ARCamera } from '@/features/ar';
 import { CountDown } from '@/features/game';
 import { Reaction } from '@/features/reaction';
 // import { Live } from '@/features/registration';

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 
 import 'react-circular-progressbar/dist/styles.css';
 
 const SESSIONTIMEINSECONDS = 2700;
 
-export const CountDown: React.FC = () => {
+export const CountDown: FunctionComponent = () => {
   const [seconds, setSeconds] = useState(SESSIONTIMEINSECONDS);
 
   useEffect(() => {
