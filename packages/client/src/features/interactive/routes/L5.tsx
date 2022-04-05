@@ -8,19 +8,19 @@ export const L5Screen: FunctionComponent = () => {
   const [users, setUsers] = useState(fakeUsers);
   return (
     <div className="flex w-full h-screen">
-      <div className="w-full h-screen text-console font-mono border-2 border-console p-10 rounded-3xl relative">
+      <div className="w-full h-screen bg-[url('/images/grid.png')] bg-cover text-console font-mono border-2 border-console p-10 rounded-3xl relative">
         <button
           className="rounded-xl border-console border-2 mb-2 px-5"
           onClick={() => setUsers([...users, fakeUsers[Math.floor(Math.random() * (3 + 1))]])}
         >
           Add User
         </button>
-        <p className="text-5xl mb-10">Welcome to YW Light Chaser 🚀✨</p>
+        <p className="text-[6rem] mb-10">Welcome to YW Light Chaser 🚀✨</p>
         <div className="h-4/5 overflow-hidden">
           {users.map((s) => (
             <p
               key={s}
-              className="text-xl mb-1"
+              className="text-[2.5rem] mb-1"
               style={{
                 color: colors[Math.floor(Math.random() * (5 + 1))],
               }}

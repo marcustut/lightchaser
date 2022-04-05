@@ -3,7 +3,7 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { ARCamera } from '@/features/ar';
 import { CountDown } from '@/features/game';
-import { L5Screen, QRCamera } from '@/features/interactive';
+import { Interaction, L5Screen, QRCamera } from '@/features/interactive';
 import { Reaction } from '@/features/reaction';
 // import { Live } from '@/features/registration';
 
@@ -24,6 +24,7 @@ const publicRoutes = [
       { path: '/ar', element: <ARCamera /> },
       { path: '/interactive/L5', element: <L5Screen /> },
       { path: '/interactive/qr', element: <QRCamera /> },
+      { path: '/interactive/interaction', element: <Interaction /> },
       { path: '/timer', element: <CountDown /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
