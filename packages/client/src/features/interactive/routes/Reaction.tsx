@@ -43,7 +43,6 @@ export const InteractiveReaction: FunctionComponent = () => {
                 : textString !== ''
                 ? setTextString('SENT!')
                 : setTextString(textString);
-              console.log(textString);
             }}
           />
         ))}
