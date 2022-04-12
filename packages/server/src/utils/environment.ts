@@ -5,7 +5,7 @@ const envKeys = [
   'NODE_ENV',
 ] as const;
 
-type Env = Record<typeof envKeys[number], string>;
+export type Env = Record<typeof envKeys[number], string>;
 
 /**
  * Load required environment variables, throw an error
