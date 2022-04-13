@@ -19,8 +19,10 @@
     "react": "^17.0.2",
     "react-circular-progressbar": "^2.0.4",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
     "react-query": "^3.34.16",
-    "react-router-dom": "6"
+    "react-router-dom": "6",
+    "zustand": "^3.7.2"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.4.2",

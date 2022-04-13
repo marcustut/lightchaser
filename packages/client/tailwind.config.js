@@ -7,6 +7,7 @@ module.exports = {
       },
       colors: {
         console: '#0dcb21',
+        disabled: '#087814',
       },
     },
   },
