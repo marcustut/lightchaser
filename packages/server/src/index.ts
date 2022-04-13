@@ -8,8 +8,7 @@ import ws from 'ws';
 import { z } from 'zod';
 import 'dotenv/config';
 
-import { MapToRegistration, Registration } from './entity/registration';
-import { arrayEquals } from './utils/compare';
+import { registrationHandler } from './handlers';
 import { loadEnv } from './utils/environment';
 
 const env = loadEnv();
@@ -29,37 +28,7 @@ export const appRouter = trpc
     },
   })
   .subscription('registration', {
-    async resolve() {
-      await doc.useServiceAccountAuth({
-        client_email: env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-        private_key: env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
-      });
-      await doc.loadInfo();
-
-      const sheet = doc.sheetsByIndex[0];
-
-      let registrations: Registration[] = [];
-
-      return new trpc.Subscription<{ registrations: Registration[] }>((emit) => {
-        const timer = setInterval(async () => {
-          const rows = await sheet.getRows();
-          const data = rows.map(MapToRegistration);
-
-          if (data.length === 0) {
-            emit.data({ registrations: data });
-            return;
-          }
-
-          // only emit data if has new registration
-          if (!arrayEquals(registrations, data)) {
-            registrations = data;
-            emit.data({ registrations: data });
-          }
-        }, 3000);
-
-        return () => clearInterval(timer);
-      });
-    },
+    resolve: async () => await registrationHandler(env, doc),
   });
 
 export type AppRouter = typeof appRouter;
