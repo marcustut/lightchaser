@@ -50,7 +50,7 @@ export const S2: FunctionComponent = () => {
   const { amount, change } = useS2();
 
   return (
-    <div className="w-screen h-screen px-5 py-5">
+    <div className="w-screen h-screen px-5 py-5 overflow-x-hidden">
       <div className="sticky top-0 bg-black py-3 z-[10]">
         <div className="flex items-center justify-between mb-2">
           <p className="font-mono text-xl tracking-wider text-console">Wallet Amount: </p>
