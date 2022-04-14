@@ -1,4 +1,4 @@
-// import { animated, useSpring } from '@react-spring/web';
+import { styled } from '@nextui-org/react';
 import {
   FunctionComponent,
   Dispatch,
@@ -10,7 +10,10 @@ import {
   useState,
 } from 'react';
 
+import { fadeToLeft } from '@/utils/animation';
 import { getRandomNumber } from '@/utils/random';
+
+const Div = styled('div');
 
 const count = function* count(start = 0, step = 1) {
   while (true) {
@@ -38,21 +41,23 @@ const FlyingEmoji: FunctionComponent<FlyingEmojiProps> = ({
     return () => clearTimeout(timer);
   }, [onAnimationEnd]);
 
-  return emoji === '🔥🔥🔥' ? (
-    <></>
-  ) : (
-    <div
-      className="absolute z-10 text-6xl"
-      style={{
+  return (
+    <Div
+      css={{
+        position: 'absolute',
+        zIndex: '$1',
+        fontSize: 'xxx-large',
         top,
         opacity,
         right: 50,
-        animation: `emoji 5s linear`,
+        animation: `${fadeToLeft} 5s linear`,
       }}
       onAnimationEnd={() => setOpacity(0)}
     >
-      <div style={{ transform: `rotate(${rotate}deg)` }}>{emoji}</div>
-    </div>
+      <div style={{ transform: `rotate(${rotate}deg)` }}>
+        {emoji === '🔥🔥🔥' ? 'EASTER EGG!' : emoji}
+      </div>
+    </Div>
   );
 };
 
