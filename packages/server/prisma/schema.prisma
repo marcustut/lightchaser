@@ -35,6 +35,11 @@ model Team {
   User      User[]
 }
 
+model Timer {
+  id    Int      @id
+  endAt DateTime
+}
+
 enum Gender {
   MALE
   FEMALE

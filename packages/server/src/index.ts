@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import http from 'http';
 
+import { PrismaClient, Timer } from '@prisma/client';
 import * as trpc from '@trpc/server';
 import { createHTTPHandler } from '@trpc/server/adapters/standalone';
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
@@ -10,6 +11,7 @@ import { z } from 'zod';
 import 'dotenv/config';
 
 import { emojiInput, emojiOutput } from './entity/emoji';
+import { timerInput } from './entity/timer';
 import { registrationHandler } from './handlers';
 import { Context } from './utils/context';
 import { loadEnv } from './utils/environment';
@@ -20,6 +22,7 @@ const MESSAGE_LIMIT = 5;
 const env = loadEnv();
 const doc = new GoogleSpreadsheet(env.GOOGLE_SPREADSHEET_ID);
 const ee = new EventEmitter();
+const prisma = new PrismaClient();
 
 let emojiCache: Record<string, number> = {};
 
@@ -79,6 +82,39 @@ export const appRouter = trpc
       // trigger 'addEmoji' to broadcast payload to clients
       ee.emit('addEmoji', input);
     },
+  })
+  .subscription('timer.realtime', {
+    resolve: async () => {
+      const timer = await prisma.timer.findUnique({ where: { id: 1 } });
+      if (!timer)
+        throw new trpc.TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '`Timer` table is not initialized properly.',
+        });
+
+      return new trpc.Subscription<string>((emit) => {
+        // broadcast timer
+        const broadcast = (timer: Timer) => emit.data(timer.endAt.toISOString());
+        // broadcast the timer to listener on connect
+        broadcast(timer);
+
+        // listen on db updates
+        ee.on('timer.update', broadcast);
+
+        // unsubscribe listener
+        return () => ee.off('timer.update', broadcast);
+      });
+    },
+  })
+  .mutation('timer.update', {
+    input: timerInput,
+    resolve: async ({ input }) => {
+      const timer = await prisma.timer.update({
+        data: { endAt: input },
+        where: { id: 1 },
+      });
+      ee.emit('timer.update', timer);
+    },
   });
 
 export type AppRouter = typeof appRouter;
@@ -89,6 +125,7 @@ const handler = createHTTPHandler({
   createContext() {
     return {};
   },
+  teardown: async () => await prisma.$disconnect(),
 });
 
 const createServerHandler = (req: http.IncomingMessage, res: http.ServerResponse) => {

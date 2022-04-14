@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
 import { AppLayout } from '@/components';
+import { trpc } from '@/lib/trpc';
 
 const digitSegments = [
   [1, 2, 3, 4, 5, 6],
@@ -16,9 +17,19 @@ const digitSegments = [
 ];
 
 export const Timer: FunctionComponent = () => {
-  const [endDate] = useState<Date>(new Date('April 14, 2022 23:00:00'));
+  const [endDate, setEndDate] = useState<Date>();
+  trpc.useSubscription(['timer.realtime'], {
+    onNext(data) {
+      setEndDate(new Date(data.replace('Z', '+08:00')));
+    },
+    onError(err) {
+      console.error(err);
+    },
+  });
 
   useEffect(() => {
+    if (!endDate) return;
+
     const _hours = document.querySelectorAll('.hours');
     const _minutes = document.querySelectorAll('.minutes');
     const _seconds = document.querySelectorAll('.seconds');
