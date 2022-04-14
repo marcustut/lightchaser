@@ -1,13 +1,14 @@
-/* eslint-disable no-restricted-imports */
 import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { ARCamera } from '@/features/ar';
-import { Home } from '@/features/dashboard';
-import { CountDown } from '@/features/game';
+import { Auth } from '@/features/auth';
+import { Help } from '@/features/help';
+import { InteractiveRoutes } from '@/features/interactive';
+import { Map } from '@/features/map';
 // import { Reaction } from '@/features/reaction';
-import { InteractiveRoutes } from '@/features/interactive/routes/InteractiveRoutes';
-import { TechgameRoutes } from '@/features/tech/routes/TechGameRoutes';
+import { TechgameRoutes } from '@/features/tech';
+import { Timer } from '@/features/timer';
 // import { Live } from '@/features/registration';
 
 const App: FunctionComponent = () => (
@@ -21,13 +22,15 @@ const publicRoutes = [
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <Home /> },
+      { path: '/', element: <Auth /> },
+      { path: '/map', element: <Map /> },
+      { path: '/timer', element: <Timer /> },
+      { path: '/help', element: <Help /> },
       // { path: '/onboard', element: <Onboard /> },
       // { path: '/live', element: <Live /> },
       { path: '/ar', element: <ARCamera /> },
       { path: '/interactive/*', element: <InteractiveRoutes /> },
       { path: '/tech/*', element: <TechgameRoutes /> },
-      { path: '/timer', element: <CountDown /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
   },

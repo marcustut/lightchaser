@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@nextui-org/react": "^1.0.2-beta.4",
-    "@react-spring/web": "^9.4.4",
     "@trpc/client": "^9.20.3",
     "@trpc/react": "^9.20.3",
     "@trpc/server": "^9.20.3",
@@ -18,7 +17,6 @@
     "grapheme-splitter": "^1.0.4",
     "modern-react-qr-reader": "^1.0.12",
     "react": "^17.0.2",
-    "react-circular-progressbar": "^2.0.4",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-query": "^3.34.16",
@@ -27,6 +25,7 @@
     "zustand": "^3.7.2"
   },
   "devDependencies": {
+    "@iconify/react": "^3.2.1",
     "@types/canvas-confetti": "^1.4.2",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
