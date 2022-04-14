@@ -4,11 +4,11 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import { ARCamera } from '@/features/ar';
 import { CountDown } from '@/features/game';
 import { Interaction, L5Screen, QRCamera, InteractiveReaction } from '@/features/interactive';
-import { Reaction } from '@/features/reaction';
+// import { Reaction } from '@/features/reaction';
 // import { Live } from '@/features/registration';
 
 const App: FunctionComponent = () => (
-  <Suspense fallback={<div>loading...x</div>}>
+  <Suspense fallback={<div>loading...</div>}>
     <Outlet />
   </Suspense>
 );
@@ -18,7 +18,7 @@ const publicRoutes = [
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <Reaction /> },
+      { path: '/', element: <>Coming Soon</> },
       // { path: '/onboard', element: <Onboard /> },
       // { path: '/live', element: <Live /> },
       { path: '/ar', element: <ARCamera /> },

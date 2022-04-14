@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^1.0.2-beta.4",
+    "@react-spring/web": "^9.4.4",
     "@trpc/client": "^9.20.3",
     "@trpc/react": "^9.20.3",
     "@trpc/server": "^9.20.3",
@@ -20,7 +21,8 @@
     "react-circular-progressbar": "^2.0.4",
     "react-dom": "^17.0.2",
     "react-query": "^3.34.16",
-    "react-router-dom": "6"
+    "react-router-dom": "6",
+    "react-toastify": "^8.2.0"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.4.2",

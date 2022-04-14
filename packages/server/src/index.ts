@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import http from 'http';
 
 import * as trpc from '@trpc/server';
@@ -8,14 +9,25 @@ import ws from 'ws';
 import { z } from 'zod';
 import 'dotenv/config';
 
+import { emojiInput, emojiOutput } from './entity/emoji';
 import { registrationHandler } from './handlers';
+import { Context } from './utils/context';
 import { loadEnv } from './utils/environment';
 
+const CACHE_TIMEOUT = 10 * 1000; // 10 seconds
+const MESSAGE_LIMIT = 5;
+
 const env = loadEnv();
-
 const doc = new GoogleSpreadsheet(env.GOOGLE_SPREADSHEET_ID);
+const ee = new EventEmitter();
 
-type Context = Record<string, unknown>;
+let emojiCache: Record<string, number> = {};
+
+// reset the cache every CACHE_TIMEOUT
+setInterval(() => {
+  emojiCache = {};
+  console.log(`${new Date()}: cache is cleared`);
+}, CACHE_TIMEOUT);
 
 export const appRouter = trpc
   .router<Context>()
@@ -29,6 +41,44 @@ export const appRouter = trpc
   })
   .subscription('registration', {
     resolve: async () => await registrationHandler(env, doc),
+  })
+  .subscription('onEmoji', {
+    resolve: async () => {
+      return new trpc.Subscription<z.infer<typeof emojiOutput>>((emit) => {
+        // handle when emoji is added
+        const onAdd = (data: z.infer<typeof emojiInput>) => {
+          emit.data(data.emoji);
+        };
+
+        // trigger `onAdd()` when `addEmoji` is triggered in our event emitter
+        ee.on('addEmoji', onAdd);
+
+        // unsubscribe function when client disconnects or stop subscribing
+        return () => {
+          ee.off('addEmoji', onAdd);
+        };
+      });
+    },
+  })
+  .mutation('addEmoji', {
+    input: emojiInput,
+    resolve: ({ input }) => {
+      // if user exceed MESSAGE_LIMIT then reject
+      if (emojiCache[input.uid] >= MESSAGE_LIMIT) {
+        console.error(`${input.uid} is rejected`);
+        throw new trpc.TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'you have exceeded the limit, try again later.',
+        });
+      }
+
+      // if user not cached before, init to 1
+      if (emojiCache[input.uid] === undefined) emojiCache[input.uid] = 1;
+      else emojiCache[input.uid]++;
+
+      // trigger 'addEmoji' to broadcast payload to clients
+      ee.emit('addEmoji', input);
+    },
   });
 
 export type AppRouter = typeof appRouter;

@@ -4,9 +4,12 @@ import { wsLink, createWSClient } from '@trpc/client/links/wsLink';
 import { FunctionComponent, Suspense, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { trpc } from '@/lib/trpc';
 import { theme } from '@/utils/theme';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function getEndingLink() {
   const client = createWSClient({
@@ -31,6 +34,7 @@ export const AppProvider: FunctionComponent = ({ children }) => {
         <QueryClientProvider client={queryClient}>
           <NextUIProvider theme={theme}>
             <BrowserRouter>{children}</BrowserRouter>
+            <ToastContainer position="top-center" theme="dark" />
           </NextUIProvider>
         </QueryClientProvider>
       </trpc.Provider>
