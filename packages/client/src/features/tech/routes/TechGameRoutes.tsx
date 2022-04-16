@@ -4,6 +4,7 @@ import { TechDashboard } from './Dashboard';
 import { S1 } from './S1';
 import { S1Calculator } from './S1/Calculator';
 import { S2 } from './S2';
+import { ARCamera } from './S2/ARCamera';
 import { S3 } from './S3';
 
 export const TechgameRoutes = () => {
@@ -13,6 +14,7 @@ export const TechgameRoutes = () => {
       <Route path="S1" element={<S1 />} />
       <Route path="S1/Calculator" element={<S1Calculator />} />
       <Route path="S2" element={<S2 />} />
+      <Route path="S2/ar" element={<ARCamera />} />
       <Route path="S3" element={<S3 />} />
       <Route path="*" element={<Navigate to={'.'} />} />
     </Routes>

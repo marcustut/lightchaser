@@ -7,6 +7,10 @@ declare global {
       'a-scene': React.DetailedHTMLProps;
       'a-marker': React.DetailedHTMLProps;
       'a-entity': React.DetailedHTMLProps;
+      'a-assets': React.DetailedHTMLProps;
+      'a-asset-item': React.DetailedHTMLProps;
+      'a-camera': React.DetailedHTMLProps;
+      'a-gltf-model': React.DetailedHTMLProps;
     }
   }
 }
