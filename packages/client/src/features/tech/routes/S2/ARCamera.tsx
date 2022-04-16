@@ -1,6 +1,17 @@
 import { FunctionComponent } from 'react';
 
+import { useScript } from '@/hooks';
+
 export const ARCamera: FunctionComponent = () => {
+  useScript(
+    [
+      'https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js',
+      'https://aframe.io/releases/1.2.0/aframe.min.js',
+      'https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js',
+      'https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js',
+    ],
+    'application/javascript'
+  );
   return typeof document !== 'undefined' ? (
     <a-scene
       mindar-image="imageTargetSrc: https://firebasestorage.googleapis.com/v0/b/light-chaser.appspot.com/o/ak.mind?alt=media&token=59b2afa6-b785-4472-9a4d-e0398bd5165d"
