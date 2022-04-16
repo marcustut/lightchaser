@@ -115,6 +115,17 @@ export const appRouter = trpc
       });
       ee.emit('timer.update', timer);
     },
+  })
+  .query('timer.get', {
+    resolve: async () => {
+      const timer = await prisma.timer.findUnique({ where: { id: 1 } });
+      if (!timer)
+        throw new trpc.TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '`Timer` table is not initialized properly.',
+        });
+      return timer.endAt.toISOString();
+    },
   });
 
 export type AppRouter = typeof appRouter;

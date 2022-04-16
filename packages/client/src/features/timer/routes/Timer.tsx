@@ -1,7 +1,10 @@
+import { Loading, Text } from '@nextui-org/react';
 import { FunctionComponent, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { AppLayout } from '@/components';
 import { trpc } from '@/lib/trpc';
+import { animatedText } from '@/utils/animation';
 
 const digitSegments = [
   [1, 2, 3, 4, 5, 6],
@@ -24,11 +27,13 @@ export const Timer: FunctionComponent = () => {
     },
     onError(err) {
       console.error(err);
+      toast('A server error has occured 🥲', { type: 'error' });
     },
   });
 
   useEffect(() => {
     if (!endDate) return;
+    if (endDate < new Date()) return;
 
     const _hours = document.querySelectorAll('.hours');
     const _minutes = document.querySelectorAll('.minutes');
@@ -84,81 +89,113 @@ export const Timer: FunctionComponent = () => {
     }
   };
 
+  const LEDTimer = () => (
+    <div className="clock">
+      <div className="digit hours" style={{ marginRight: '-18px' }}>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+      </div>
+
+      <div className="digit hours">
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+      </div>
+
+      <div className="separator">
+        <div className="separator"></div>
+      </div>
+
+      <div className="digit minutes" style={{ marginRight: '-18px' }}>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+      </div>
+
+      <div className="digit minutes">
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+      </div>
+
+      <div className="separator">
+        <div className="separator"></div>
+      </div>
+
+      <div className="digit seconds" style={{ marginRight: '-18px' }}>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+      </div>
+
+      <div className="digit seconds">
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+        <div className="segment"></div>
+      </div>
+    </div>
+  );
+
+  const renderLEDTimer = () => {
+    if (!endDate) return <Loading />;
+    if (endDate < new Date())
+      return (
+        <>
+          <Text
+            weight="bold"
+            color="primary"
+            size="xx-large"
+            css={{
+              background: 'linear-gradient(-45deg, $primary, $primary, #e74b3c, #e74b3c)',
+              backgroundSize: '300%',
+              backgroundClip: 'text',
+              color: 'transparent',
+              animation: `${animatedText} 10s ease-in-out infinite`,
+            }}
+          >
+            Countdown Ended
+          </Text>
+        </>
+      );
+    return LEDTimer();
+  };
+
   return (
     <AppLayout
       css={{
         height: 'calc(100vh - 84px)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <div className="clock">
-        <div className="digit hours" style={{ marginRight: '-18px' }}>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-        </div>
-
-        <div className="digit hours">
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-        </div>
-
-        <div className="separator">
-          <div className="separator"></div>
-        </div>
-
-        <div className="digit minutes" style={{ marginRight: '-18px' }}>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-        </div>
-
-        <div className="digit minutes">
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-        </div>
-
-        <div className="separator">
-          <div className="separator"></div>
-        </div>
-
-        <div className="digit seconds" style={{ marginRight: '-18px' }}>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-        </div>
-
-        <div className="digit seconds">
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-          <div className="segment"></div>
-        </div>
-      </div>
+      {renderLEDTimer()}
     </AppLayout>
   );
 };

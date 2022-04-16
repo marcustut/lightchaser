@@ -54,8 +54,25 @@ interface BottomAppBarProps {
   options?: AppBarButtonProps[];
 }
 
-export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({ options }) => {
-  if (!options) throw new Error("'options' must be provided");
+export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({
+  options = [
+    {
+      href: '/timer',
+      icon: 'heroicons-outline:clock',
+      text: 'Timer',
+    },
+    {
+      href: '/map',
+      icon: 'heroicons-outline:map',
+      text: 'Map',
+    },
+    {
+      href: '/help',
+      icon: 'heroicons-outline:phone-outgoing',
+      text: 'Help',
+    },
+  ],
+}) => {
   return (
     <Grid.Container
       justify="space-evenly"
@@ -75,24 +92,4 @@ export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({ options }) 
       ))}
     </Grid.Container>
   );
-};
-
-BottomAppBar.defaultProps = {
-  options: [
-    {
-      href: '/timer',
-      icon: 'heroicons-outline:clock',
-      text: 'Timer',
-    },
-    {
-      href: '/map',
-      icon: 'heroicons-outline:map',
-      text: 'Map',
-    },
-    {
-      href: '/help',
-      icon: 'heroicons-outline:phone-outgoing',
-      text: 'Help',
-    },
-  ],
 };

@@ -43,3 +43,9 @@ export const fadeToLeft = keyframes({
     opacity: 0,
   },
 });
+
+export const animatedText = keyframes({
+  '0%': { backgroundPositionX: '0px', backgroundPositionY: '50%' },
+  '50%': { backgroundPositionX: '100%', backgroundPositionY: '50%' },
+  '100%': { backgroundPosition: '0px', backgroundPositionY: '50%' },
+});
