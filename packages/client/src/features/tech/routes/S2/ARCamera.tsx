@@ -19,7 +19,7 @@ export const ARCamera: FunctionComponent = () => {
 
       <a-entity mindar-image-target="targetIndex: 0">
         <a-gltf-model
-          rotation="0 0 0 "
+          rotation="0 0 0"
           position="0 -0.25 0"
           scale="0.05 0.05 0.05"
           src="#akModel"
