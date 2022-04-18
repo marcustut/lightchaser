@@ -22,7 +22,8 @@ const publicRoutes = [
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <Auth /> },
+      { path: '/', element: <Navigate to="/tech" /> },
+      { path: '/auth', element: <Auth /> },
       { path: '/map', element: <Map /> },
       { path: '/timer', element: <Timer /> },
       { path: '/help', element: <Help /> },
