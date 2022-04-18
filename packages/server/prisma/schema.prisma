@@ -40,6 +40,14 @@ model Timer {
   endAt DateTime
 }
 
+model Contact {
+  contactNumber String   @id
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  name          String
+  description   String
+}
+
 enum Gender {
   MALE
   FEMALE

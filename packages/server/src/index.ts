@@ -10,6 +10,7 @@ import ws from 'ws';
 import { z } from 'zod';
 import 'dotenv/config';
 
+import { contactAddInput, contactDeleteInput, contactUpdateInput } from './entity/contact';
 import { emojiInput, emojiOutput } from './entity/emoji';
 import { timerInput } from './entity/timer';
 import { registrationHandler } from './handlers';
@@ -126,6 +127,38 @@ export const appRouter = trpc
         });
       return timer.endAt.toISOString();
     },
+  })
+  .mutation('contact.add', {
+    input: contactAddInput,
+    resolve: async ({ input }) => {
+      const contact = await prisma.contact.create({
+        data: {
+          contactNumber: input.contactNumber,
+          name: input.name,
+          description: input.description,
+        },
+      });
+      return contact;
+    },
+  })
+  .mutation('contact.delete', {
+    input: contactDeleteInput,
+    resolve: async ({ input }) => await prisma.contact.delete({ where: { contactNumber: input } }),
+  })
+  .mutation('contact.update', {
+    input: contactUpdateInput,
+    resolve: async ({ input }) =>
+      await prisma.contact.update({
+        where: { contactNumber: input.contactNumber },
+        data: {
+          contactNumber: input.newContactNumber,
+          name: input.newName,
+          description: input.newDescription,
+        },
+      }),
+  })
+  .query('contact.all', {
+    resolve: async () => await prisma.contact.findMany(),
   });
 
 export type AppRouter = typeof appRouter;
