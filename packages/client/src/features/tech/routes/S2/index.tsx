@@ -45,24 +45,22 @@ const items = [
 ];
 
 export const S2: FunctionComponent = () => {
-  const [walletAmt] = useState(500);
-
-  const { amount, change } = useS2();
+  const { amount } = useS2();
 
   return (
     <div className="w-screen h-screen px-5 pb-5 overflow-x-hidden">
       <div className="sticky top-0 bg-black py-3 z-[10]">
         <div className="flex items-center justify-between mb-2">
           <p className="font-mono text-xl tracking-wider text-console">Wallet Amount: </p>
-          <div className="rounded-xl border-[2px] border-console text-console font-mono text-xl w-[130px] text-center w-full bg-black">
-            RM{walletAmt.toFixed(2)}
+          <div className="rounded-xl border-[2px] border-console text-console font-mono text-xl w-[130px] text-center bg-black">
+            RM{amount.toFixed(2)}
           </div>
         </div>
         <p className="font-mono text-3xl tracking-wider text-console">Items</p>
       </div>
       <div>
         {items.map((i, key) => (
-          <ItemCard key={key} price={i.price} imgSrc={i.imgSrc} change={change} amount={amount} />
+          <ItemCard key={key} price={i.price} imgSrc={i.imgSrc} amount={amount} />
         ))}
       </div>
     </div>
@@ -72,22 +70,24 @@ export const S2: FunctionComponent = () => {
 interface ItemCardProps {
   imgSrc: string;
   price: number;
-  change: (state: number) => void;
   amount: number;
 }
 
 const ItemCard: FunctionComponent<ItemCardProps> = ({ imgSrc, price }) => {
-  const [amount, setAmount] = useState(0);
+  const { amount, setAmount } = useS2();
+  const [quantity, setQuantity] = useState(0);
 
   const handleIncrement = () => {
-    if (amount !== 10) {
-      setAmount((prev) => prev + 1);
+    if (quantity !== 10) {
+      setQuantity((prev) => prev + 1);
+      setAmount(amount - price);
     }
   };
 
   const handleDecrement = () => {
-    if (amount !== 0) {
-      setAmount((prev) => prev - 1);
+    if (quantity !== 0) {
+      setQuantity((prev) => prev - 1);
+      setAmount(amount + price);
     }
   };
 
@@ -101,11 +101,11 @@ const ItemCard: FunctionComponent<ItemCardProps> = ({ imgSrc, price }) => {
       <div className="flex-col mx-auto">
         <p className="font-mono text-2xl text-console">Price: RM{price.toFixed(2)}</p>
         <div className="flex justify-around ml-5 rounded-lg border-[2px] p-2 border-console mt-1">
-          <button onClick={() => handleDecrement()} className="font-mono text-2xl text-console">
+          <button onClick={handleDecrement} className="font-mono text-2xl text-console">
             -
           </button>
-          <p className="font-mono text-2xl text-console w-[30px] text-center">{amount}</p>
-          <button onClick={() => handleIncrement()} className="font-mono text-2xl text-console">
+          <p className="font-mono text-2xl text-console w-[30px] text-center">{quantity}</p>
+          <button onClick={handleIncrement} className="font-mono text-2xl text-console">
             +
           </button>
         </div>
