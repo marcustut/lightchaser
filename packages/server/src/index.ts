@@ -130,16 +130,14 @@ export const appRouter = trpc
   })
   .mutation('contact.add', {
     input: contactAddInput,
-    resolve: async ({ input }) => {
-      const contact = await prisma.contact.create({
+    resolve: async ({ input }) =>
+      await prisma.contact.create({
         data: {
           contactNumber: input.contactNumber,
           name: input.name,
           description: input.description,
         },
-      });
-      return contact;
-    },
+      }),
   })
   .mutation('contact.delete', {
     input: contactDeleteInput,
