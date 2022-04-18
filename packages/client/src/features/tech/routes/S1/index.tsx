@@ -13,6 +13,14 @@ export const S1: FunctionComponent = () => {
   return (
     <div className="flex h-screen justify-center items-center">
       <div className="grid grid-cols-1 gap-2">
+        <button
+          onClick={() => {
+            navigate('./Calculator');
+          }}
+          className="rounded-xl border-[6px] border-console w-[100px] h-[60px] font-lato text-2xl text-center w-full bg-console"
+        >
+          CGM
+        </button>
         <input
           onChange={(event) => setx1(event.target.value)}
           maxLength={2}
