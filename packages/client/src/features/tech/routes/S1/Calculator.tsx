@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FunctionComponent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const equations: Record<number, string> = {
   1: '3+5*7-19+100/25-4*1=',
@@ -12,6 +13,7 @@ const equations: Record<number, string> = {
 
 export const S1Calculator: FunctionComponent = () => {
   const [seq, setSeq] = useState(1);
+  const navigate = useNavigate();
   return (
     <div className="w-screen h-screen px-3 pt-7">
       <p
@@ -32,12 +34,18 @@ export const S1Calculator: FunctionComponent = () => {
           ))}
         </div>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col justify-center items-center">
         <input
           onChange={(e) => e.currentTarget.value.slice(0, 2)}
           type="number"
           className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center w-full bg-black"
         ></input>
+        <button
+          onClick={() => navigate(-1)}
+          className="px-5 py-2 mt-2 flex justify-center items-center rounded-xl border-2 border-console"
+        >
+          <p className="font-lato text-lg text-center w-full">Back</p>
+        </button>
       </div>
     </div>
   );

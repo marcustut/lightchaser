@@ -1,6 +1,8 @@
 import { FunctionComponent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useS2 } from '@/store/useS2';
+import { useTech } from '@/store/useTech';
 
 const items = [
   {
@@ -46,17 +48,36 @@ const items = [
 
 export const S2: FunctionComponent = () => {
   const { amount } = useS2();
+  const navigate = useNavigate();
+  const { pass } = useTech();
 
   return (
     <div className="w-screen h-screen px-5 pb-5 overflow-x-hidden">
       <div className="sticky top-0 bg-black py-3 z-[10]">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-3">
           <p className="font-mono text-xl tracking-wider text-console">Wallet Amount: </p>
           <div className="rounded-xl border-[2px] border-console text-console font-mono text-xl w-[130px] text-center bg-black">
-            RM{amount.toFixed(2)}
+            RM 500.00
           </div>
         </div>
-        <p className="font-mono text-3xl tracking-wider text-console">Items</p>
+        <div className="flex justify-between">
+          <p className="font-mono text-3xl tracking-wider text-console">Items</p>
+          <button
+            onClick={() => {
+              console.log(amount);
+              if (amount !== 0) {
+                alert('Wrong Answer!');
+              } else {
+                alert('Correct Answer!');
+                navigate('/tech');
+                pass(2);
+              }
+            }}
+            className="text-white bg-console rounded-xl w-[150px] py-1"
+          >
+            Buy
+          </button>
+        </div>
       </div>
       <div>
         {items.map((i, key) => (

@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { AiFillLock } from 'react-icons/ai';
+// import { AiFillLock } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 
 import { useTech } from '@/store/useTech';
@@ -51,11 +51,11 @@ export const TechDashboard: FunctionComponent = () => {
           {timeLeft()}
         </p>
       </div>
-      <div
+      {/* <div
         className={`border-2 border-disabled rounded-2xl w-full h-[100px] flex justify-center items-center mt-7`}
       >
         <AiFillLock color="#087814" size={30} />
-      </div>
+      </div> */}
     </div>
   );
 };

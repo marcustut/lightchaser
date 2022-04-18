@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FunctionComponent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { getCoords } from '@/lib/location';
+import { useTech } from '@/store/useTech';
 
 const ans: Record<string, any | number> = {
   1: {
@@ -36,14 +38,23 @@ export const S3: FunctionComponent = () => {
   const [lat, setLat] = useState<string>('');
   const [lng, setLng] = useState<string>('');
   const [data, setData] = useState<Record<string, any>>();
-  const [set, setSet] = useState<number>(5);
-  const [player, setPlayer] = useState<number>(1);
+  const [set, setSet] = useState<number>(1);
+  const [player, setPlayer] = useState<number>(0);
+
+  const navigate = useNavigate();
+  const { pass } = useTech();
 
   const inBetweenTwoNumber = (target: number, ranges: [number, number]) =>
     target >= ranges[0] && target <= ranges[1];
 
   return player !== 1 ? (
     <div className="flex flex-col justify-center items-center h-screen w-screen p-7">
+      <button
+        onClick={() => setPlayer(1)}
+        className="px-2 py-1 bg-console rounded-xl text-xl font-mono mb-5"
+      >
+        Change To Submission State
+      </button>
       <input
         placeholder="Place Name..."
         className="font-mono text-xl bg-black px-2 py-1 border-2 rounded-xl border-console mb-5 text-center"
@@ -69,6 +80,12 @@ export const S3: FunctionComponent = () => {
     </div>
   ) : (
     <div className="flex flex-col justify-center items-center h-screen w-screen p-7">
+      <button
+        onClick={() => setPlayer(0)}
+        className="px-2 py-1 bg-console rounded-xl text-xl font-mono mb-5"
+      >
+        Change To Query State
+      </button>
       <input
         placeholder="Latitude..."
         className="font-mono text-2xl bg-black px-2 py-1 border-2 rounded-xl border-console mb-5 text-center"
@@ -86,6 +103,8 @@ export const S3: FunctionComponent = () => {
             inBetweenTwoNumber(parseFloat(lng), [ans[set].lng - 0.5, ans[set].lng + 0.5])
           ) {
             alert('Correct Answer!');
+            pass(3);
+            navigate('/tech');
           } else {
             alert('Wrong Answer.');
           }

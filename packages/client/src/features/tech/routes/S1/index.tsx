@@ -1,6 +1,8 @@
 import { FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useTech } from '@/store/useTech';
+
 export const S1: FunctionComponent = () => {
   const [x1, setx1] = useState<string>('');
   const [x2, setx2] = useState<string>('');
@@ -9,9 +11,10 @@ export const S1: FunctionComponent = () => {
   const [x5, setx5] = useState<string>('');
 
   const navigate = useNavigate();
+  const { pass } = useTech();
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex h-screen justify-center items-center p-7">
       <div className="grid grid-cols-1 gap-2">
         <button
           onClick={() => {
@@ -52,6 +55,7 @@ export const S1: FunctionComponent = () => {
               alert('Wrong Answer');
             } else {
               alert('Correct Answer');
+              pass(1);
               navigate('/tech');
             }
           }}
