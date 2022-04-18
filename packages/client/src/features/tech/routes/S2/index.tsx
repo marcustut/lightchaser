@@ -50,7 +50,7 @@ export const S2: FunctionComponent = () => {
   const { amount, change } = useS2();
 
   return (
-    <div className="w-screen h-screen px-5 py-5">
+    <div className="w-screen h-screen px-5 pb-5 overflow-x-hidden">
       <div className="sticky top-0 bg-black py-3 z-[10]">
         <div className="flex items-center justify-between mb-2">
           <p className="font-mono text-xl tracking-wider text-console">Wallet Amount: </p>
@@ -98,18 +98,17 @@ const ItemCard: FunctionComponent<ItemCardProps> = ({ imgSrc, price }) => {
         src={imgSrc}
         alt={imgSrc}
       />
-      <div className="flex-col ml-5">
-        <p className="font-mono text-2xl text-console">Price:</p>
-        <p className="font-mono text-2xl text-console">RM{price.toFixed(2)}</p>
-      </div>
-      <div className="flex justify-center ml-5 rounded-lg border-[2px] p-2 border-console absolute right-5">
-        <button onClick={() => handleDecrement()} className="font-mono text-2xl text-console">
-          -
-        </button>
-        <p className="font-mono text-2xl text-console w-[30px] text-center">{amount}</p>
-        <button onClick={() => handleIncrement()} className="font-mono text-2xl text-console">
-          +
-        </button>
+      <div className="flex-col mx-auto">
+        <p className="font-mono text-2xl text-console">Price: RM{price.toFixed(2)}</p>
+        <div className="flex justify-around ml-5 rounded-lg border-[2px] p-2 border-console mt-1">
+          <button onClick={() => handleDecrement()} className="font-mono text-2xl text-console">
+            -
+          </button>
+          <p className="font-mono text-2xl text-console w-[30px] text-center">{amount}</p>
+          <button onClick={() => handleIncrement()} className="font-mono text-2xl text-console">
+            +
+          </button>
+        </div>
       </div>
     </div>
   );

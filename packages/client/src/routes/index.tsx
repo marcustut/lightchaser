@@ -2,7 +2,6 @@ import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { AdminRoutes } from '@/features/admin';
-import { ARCamera } from '@/features/ar';
 import { Auth } from '@/features/auth';
 import { Help } from '@/features/help';
 import { InteractiveRoutes } from '@/features/interactive';
@@ -30,7 +29,6 @@ const publicRoutes = [
       { path: '/admin/*', element: <AdminRoutes /> },
       // { path: '/onboard', element: <Onboard /> },
       // { path: '/live', element: <Live /> },
-      { path: '/ar', element: <ARCamera /> },
       { path: '/interactive/*', element: <InteractiveRoutes /> },
       { path: '/tech/*', element: <TechgameRoutes /> },
       { path: '*', element: <Navigate to="/" /> },

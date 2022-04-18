@@ -20,7 +20,7 @@ const tasks = [
   },
 ];
 
-const SESSIONTIMEINSECONDS = 2700;
+const SESSIONTIMEINSECONDS = 1800;
 
 export const TechDashboard: FunctionComponent = () => {
   const [seconds, setSeconds] = useState(SESSIONTIMEINSECONDS);

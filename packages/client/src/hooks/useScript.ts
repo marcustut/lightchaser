@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 
-export const useScript = (url: string[]) => {
+export const useScript = (url: string[], type: string) => {
   useEffect(() => {
     url.map((u) => {
       const unit = document.createElement('script');
 
       unit.src = u;
       unit.async = true;
+      unit.type = type;
 
       document.head.appendChild(unit);
 
@@ -14,5 +15,5 @@ export const useScript = (url: string[]) => {
         document.head.removeChild(unit);
       };
     });
-  }, [url]);
+  }, [type, url]);
 };
