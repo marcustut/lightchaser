@@ -4,7 +4,7 @@ export const theme = createTheme({
   type: 'dark',
   theme: {
     colors: {
-      primaryGreen: '#0dcb21',
+      primary: '#0dcb21',
     },
     fonts: {
       lato: "'Lato','sans-serif'",

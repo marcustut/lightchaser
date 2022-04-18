@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["cockroachdb"]
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  identityCardNumber String    @unique @db.VarChar(12)
+  birthYear          Int
+  gender             Gender
+  contactNumber      String
+  satellite          Satellite
+  cg                 String
+  status             Status
+  shirtSize          ShirtSize
+  Team               Team?     @relation(fields: [teamId], references: [id])
+  teamId             Int?
+}
+
+model Team {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  points    Int
+  User      User[]
+}
+
+model Timer {
+  id    Int      @id
+  endAt DateTime
+}
+
+model Contact {
+  contactNumber String   @id
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  name          String
+  description   String
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Satellite {
+  KUCHAI
+  KEPONG
+  PJ
+  PUCHONG
+  RAWANG
+  SERDANG
+  SEREMBAN
+  SETAPAK
+  SGLONG
+  USJ
+  KLANG
+  KAJNG
+}
+
+enum Status {
+  NEWFRIEND
+  NEWBELIEVER
+  ORDINARYMEMBER
+  LEADER
+  BOSSLEVEL
+}
+
+enum ShirtSize {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
