@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon -e ts -w . -x ts-node -r ./src/index",
     "start": "yarn dev",
-    "build": "tsc && mv dist/src/* dist/"
+    "build": "yarn generate && tsc && mv dist/src/* dist/",
+    "clean": "sudo rm -r dist/",
+    "generate": "npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "3.12.0",
