@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTech } from '@/store/useTech';
+import { toast } from '@/utils/toast';
 
 export const S1: FunctionComponent = () => {
   const [x1, setx1] = useState<string>('');
@@ -52,9 +53,9 @@ export const S1: FunctionComponent = () => {
         <button
           onClick={() => {
             if ((x1 + x2 + x3 + x4 + x5).toUpperCase() !== 'SEVEN') {
-              alert('Wrong Answer');
+              toast(false);
             } else {
-              alert('Correct Answer');
+              toast(true);
               pass(1);
               navigate('/tech');
             }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useS2 } from '@/store/useS2';
 import { useTech } from '@/store/useTech';
+import { toast } from '@/utils/toast';
 
 const items = [
   {
@@ -66,9 +67,9 @@ export const S2: FunctionComponent = () => {
             onClick={() => {
               console.log(amount);
               if (amount !== 0) {
-                alert('Wrong Answer!');
+                toast(false);
               } else {
-                alert('Correct Answer!');
+                toast(true);
                 navigate('/tech');
                 pass(2);
               }

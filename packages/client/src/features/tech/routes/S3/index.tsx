@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { getCoords } from '@/lib/location';
 import { useTech } from '@/store/useTech';
+import { toast } from '@/utils/toast';
 
-const ans: Record<string, any | number> = {
+const ans: Record<string, { lat: number; lng: number; name: string }> = {
   1: {
     lat: 48.86,
     lng: 2.35,
@@ -102,11 +103,11 @@ export const S3: FunctionComponent = () => {
             inBetweenTwoNumber(parseFloat(lat), [ans[set].lat - 0.5, ans[set].lat + 0.5]) &&
             inBetweenTwoNumber(parseFloat(lng), [ans[set].lng - 0.5, ans[set].lng + 0.5])
           ) {
-            alert('Correct Answer!');
+            toast(true);
             pass(3);
             navigate('/tech');
           } else {
-            alert('Wrong Answer.');
+            toast(false);
           }
         }}
         className="border-2 border-console text-white font-mono text-xl px-3 py-2 rounded-xl"
