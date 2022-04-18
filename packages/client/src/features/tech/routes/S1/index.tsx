@@ -63,6 +63,7 @@ export const S1: FunctionComponent = () => {
         >
           Submit
         </button>
+        <p className="text-gray-600 font-lato w-full text-center italic">YW = 2523</p>
       </div>
     </div>
   );
