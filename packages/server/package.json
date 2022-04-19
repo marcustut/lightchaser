@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development nodemon -e ts -w . -x ts-node -r ./src/index",
     "start": "yarn dev",
     "build": "yarn clean && yarn generate && tsc && mv dist/src/* dist/",
-    "clean": "sudo rm -r dist/",
+    "clean": "npx rimraf dist",
     "generate": "npx prisma generate"
   },
   "dependencies": {
