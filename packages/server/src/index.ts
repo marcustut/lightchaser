@@ -202,6 +202,6 @@ wss.on('connection', (ws) => {
     console.log(`➖➖ Connection (${wss.clients.size})`);
   });
 });
-console.log('✅ WebSocket Server listening on ws://localhost:2022');
+console.log(`✅ WebSocket Server listening on ws://localhost:${process.env.PORT ?? 2022}`);
 
 server.listen(process.env.PORT ?? 2022);
