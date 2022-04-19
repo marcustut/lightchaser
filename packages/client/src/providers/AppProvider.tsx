@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
+import { PWAReloadPrompt } from '@/components';
 import { trpc } from '@/lib/trpc';
 import { theme } from '@/utils/theme';
 
@@ -35,6 +36,7 @@ export const AppProvider: FunctionComponent = ({ children }) => {
           <NextUIProvider theme={theme}>
             <BrowserRouter>{children}</BrowserRouter>
             <ToastContainer position="top-center" theme="dark" />
+            <PWAReloadPrompt />
           </NextUIProvider>
         </QueryClientProvider>
       </trpc.Provider>
