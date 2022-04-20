@@ -45,6 +45,7 @@ export const L5Screen: FunctionComponent = () => {
           toast(`${fakeUsers[randomNumber(1, 4)]}  has joined the chat!}`, {
             position: toastOrigins[randomNumber(1, 6)] as ToastPosition,
             type: toastTypes[randomNumber(1, 5)] as TypeOptions,
+            icon: '🚀',
           })
         }
       >
