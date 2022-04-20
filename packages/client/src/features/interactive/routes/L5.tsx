@@ -2,12 +2,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FunctionComponent, ReactElement, useState } from 'react';
-import { toast, ToastPosition } from 'react-toastify';
+import { toast, ToastPosition, TypeOptions } from 'react-toastify';
 
 import { FlyingEmojis } from '@/components';
 import { trpc } from '@/lib/trpc';
 
 const fakeUsers = ['Adam', 'Eve', 'Cain', 'Abel'];
+const toastTypes = ['default', 'error', 'info', 'warning', 'success'];
 
 export const L5Screen: FunctionComponent = () => {
   const [payload, setPayload] = useState<string>();
@@ -43,6 +44,7 @@ export const L5Screen: FunctionComponent = () => {
         onClick={() =>
           toast(`${fakeUsers[randomNumber(1, 4)]}  has joined the chat!}`, {
             position: toastOrigins[randomNumber(1, 6)] as ToastPosition,
+            type: toastTypes[randomNumber(1, 5)] as TypeOptions,
           })
         }
       >
