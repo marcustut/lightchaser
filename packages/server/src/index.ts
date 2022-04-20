@@ -19,6 +19,7 @@ import { loadEnv } from './utils/environment';
 
 const CACHE_TIMEOUT = 10 * 1000; // 10 seconds
 const MESSAGE_LIMIT = 5;
+const PORT = process.env.PORT || 2022;
 
 const env = loadEnv();
 const doc = new GoogleSpreadsheet(env.GOOGLE_SPREADSHEET_ID);
@@ -202,6 +203,6 @@ wss.on('connection', (ws) => {
     console.log(`➖➖ Connection (${wss.clients.size})`);
   });
 });
-console.log('✅ WebSocket Server listening on ws://localhost:2022');
+console.log(`✅ WebSocket Server listening on ws://localhost:${PORT}`);
 
-server.listen(process.env.PORT ?? 2022);
+server.listen(PORT);
