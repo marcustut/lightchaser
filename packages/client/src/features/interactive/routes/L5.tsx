@@ -57,7 +57,7 @@ export const L5Screen: FunctionComponent = () => {
             alt="logo"
           />
           <p className="text-[8rem] font-montserrat font-black italic z-[2] tracking-widest">
-            YW Light Chaser 🚀✨
+            YW Light Chaser
           </p>
         </div>
         {/* <div className="w-1/5 h-screen border-console border-2">XD</div> */}
