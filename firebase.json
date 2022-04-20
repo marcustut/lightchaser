@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "rewrites": [{
+      "source": "**",
+      "run": {
+        "serviceId": "light-chaser",
+        "region": "asia-southeast1"
+      }
+    }]
+  }
+}
