@@ -71,10 +71,10 @@ const TaskButton: FunctionComponent<TaskButtonProps> = ({ completion, task, onCl
     <button
       onClick={onClick}
       disabled={completion}
-      className="flex-col border-console border-2 rounded-2xl w-full py-2 justify-center disabled:border-disabled"
+      className="flex flex-col border-console border-2 rounded-2xl w-full py-2 items-center justify-center disabled:border-disabled"
     >
-      <div className="text-console text-center w-full h-[40px] mt-2 text-xl">{task}</div>
-      <div className="text-center w-full">{completion ? '✔️' : '❌'}</div>
+      <div className="text-console h-[40px] mt-2 text-xl">{task}</div>
+      <div className="">{completion ? '✔️' : '❌'}</div>
     </button>
   );
 };

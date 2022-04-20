@@ -5,6 +5,7 @@ import { AdminRoutes } from '@/features/admin';
 import { Auth } from '@/features/auth';
 import { Help } from '@/features/help';
 import { InteractiveRoutes } from '@/features/interactive';
+import { HomePage } from '@/features/landing';
 import { Map } from '@/features/map';
 // import { Reaction } from '@/features/reaction';
 import { TechgameRoutes } from '@/features/tech';
@@ -22,7 +23,7 @@ const publicRoutes = [
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <Navigate to="/tech" /> },
+      { path: '/', element: <HomePage /> },
       { path: '/auth', element: <Auth /> },
       { path: '/map', element: <Map /> },
       { path: '/timer', element: <Timer /> },

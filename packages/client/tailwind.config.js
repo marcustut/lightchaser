@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       fontFamily: {
         lato: ['Lato', 'sans-serif'],
+        montserrrat: ['Montserrat', 'sans-serif'],
       },
       colors: {
         console: '#0dcb21',
