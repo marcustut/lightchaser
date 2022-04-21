@@ -12,10 +12,10 @@ datasource db {
 }
 
 model User {
-  id                 Int       @id @default(autoincrement())
+  identityCardNumber String    @id
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
-  identityCardNumber String    @unique @db.VarChar(12)
+  name               String
   birthYear          Int
   gender             Gender
   contactNumber      String
@@ -25,15 +25,21 @@ model User {
   shirtSize          ShirtSize
   Team               Team?     @relation(fields: [teamId], references: [id])
   teamId             Int?
+  LeadingTeam        Team?     @relation("Leader")
 }
 
 model Team {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  points        Int
-  startingPoint Station
-  User          User[]
+  id               Int      @id
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  points           Int      @default(0)
+  startingPoint    Station
+  tgOneCompleted   Boolean  @default(false)
+  tgTwoCompleted   Boolean  @default(false)
+  tgThreeCompleted Boolean  @default(false)
+  Leader           User     @relation("Leader", fields: [leaderId], references: [identityCardNumber])
+  leaderId         String   @unique
+  User             User[]
 }
 
 model Timer {
@@ -66,7 +72,7 @@ enum Satellite {
   SGLONG
   USJ
   KLANG
-  KAJNG
+  KAJANG
 }
 
 enum Status {
