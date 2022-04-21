@@ -28,11 +28,12 @@ model User {
 }
 
 model Team {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  points    Int
-  User      User[]
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  points        Int
+  startingPoint Station
+  User          User[]
 }
 
 model Timer {
@@ -84,4 +85,11 @@ enum ShirtSize {
   XL
   XXL
   XXXL
+}
+
+enum Station {
+  CHAOSARENA
+  INFINITYCITY
+  BLACKMARKET
+  LOSTZONE
 }
