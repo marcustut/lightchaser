@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FunctionComponent, ReactElement, useState } from 'react';
+import { Typewriter } from 'react-simple-typewriter';
 import { toast, ToastPosition, TypeOptions } from 'react-toastify';
 
 import { FlyingEmojis } from '@/components';
@@ -23,14 +24,7 @@ export const L5Screen: FunctionComponent = () => {
     enabled: true,
   });
 
-  const toastOrigins = [
-    'bottom-center',
-    'bottom-left',
-    'bottom-right',
-    'top-center',
-    'top-left',
-    'top-right',
-  ];
+  const toastOrigins = ['bottom-left', 'top-left'];
 
   const randomNumber = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -42,9 +36,12 @@ export const L5Screen: FunctionComponent = () => {
       <div
         className="flex w-full h-screen"
         onClick={() =>
-          toast(`${fakeUsers[randomNumber(1, 4)]}  has joined the chat!}`, {
-            position: toastOrigins[randomNumber(1, 6)] as ToastPosition,
-            type: toastTypes[randomNumber(1, 5)] as TypeOptions,
+          toast(`${fakeUsers[randomNumber(0, 3)]}  has joined the chat!`, {
+            theme: 'colored',
+            pauseOnFocusLoss: false,
+            position: toastOrigins[randomNumber(0, 1)] as ToastPosition,
+            type: toastTypes[randomNumber(0, 4)] as TypeOptions,
+
             icon: '🚀',
           })
         }
@@ -56,8 +53,16 @@ export const L5Screen: FunctionComponent = () => {
             className="z-[1] transform translate-1/2 absolute opacity-25 scale-[175%]"
             alt="logo"
           />
-          <p className="text-[8rem] font-montserrat font-black italic z-[2] tracking-widest">
-            YW Light Chaser
+          <p className="text-[8rem] font-jbmono font-bold z-[2] tracking-widest">
+            <Typewriter
+              typeSpeed={100}
+              words={['YW Light Chaser', 'Welcome']}
+              deleteSpeed={150}
+              // delaySpeed={100}
+              loop={0}
+              cursor
+              cursorStyle="█"
+            />
           </p>
         </div>
         {/* <div className="w-1/5 h-screen border-console border-2">XD</div> */}

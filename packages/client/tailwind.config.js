@@ -5,6 +5,7 @@ module.exports = {
       fontFamily: {
         lato: ['Lato', 'sans-serif'],
         montserrrat: ['Montserrat', 'sans-serif'],
+        jbmono: ["'JetBrains Mono'", 'ui-monospace'],
       },
       colors: {
         console: '#0dcb21',

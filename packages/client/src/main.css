@@ -15,6 +15,13 @@
   src: url('/fonts/douyuFont.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Bold.woff2') format("woff2");
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format("woff2");
+}
+
+
 .glow {
   text-align: center;
   -webkit-animation: glow 1s ease-in-out infinite alternate;
