@@ -5,7 +5,12 @@ import { GameInstruction } from '@/components/GameInstruction';
 import { useTech } from '@/store/useTech';
 import { toast } from '@/utils/toast';
 
-const instructions = ['每个组员都会得到一串方程式', '组长需在电话里输入方程式后的答案'];
+const instructions = [
+  '每个组员都会得到一串方程式',
+  '组长需在电话里输入方程式后的答案',
+  'P/S: 答案可没有那么简单哦, 大家动动脑筋吧!',
+  '😜',
+];
 
 export const S1: FunctionComponent = () => {
   const [x1, setx1] = useState<string>('');

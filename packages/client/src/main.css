@@ -14,6 +14,16 @@
   font-family: 'DOUYU';
   src: url('/fonts/douyuFont.otf') format('opentype');
 }
+@font-face {
+  font-family: 'Monument Extended';
+  src: url('/fonts/MonumentExtended-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Monument Extended Ultrabold';
+  src: url('/fonts/MonumentExtended-Ultrabold.otf') format('opentype');
+}
+
 
 @font-face {
   font-family: 'REEJI-PinboGB-Flash';
