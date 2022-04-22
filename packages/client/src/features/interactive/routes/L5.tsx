@@ -1,14 +1,17 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FunctionComponent, ReactElement, useState } from 'react';
+import { Typewriter } from 'react-simple-typewriter';
+import { toast, ToastPosition, TypeOptions } from 'react-toastify';
 
 import { FlyingEmojis } from '@/components';
 import { trpc } from '@/lib/trpc';
 
-const colors = ['#8ae234', '#ef2929', '#fce94f', '#32afff', '#ad7fa8', '#34e2e2'];
-const emojis = ['🚀', '✨', '💕', '👽', '👾', '🐙', '💣'];
 const fakeUsers = ['Adam', 'Eve', 'Cain', 'Abel'];
+const toastTypes = ['default', 'error', 'info', 'warning', 'success'];
 
 export const L5Screen: FunctionComponent = () => {
-  const [users, setUsers] = useState(fakeUsers);
   const [payload, setPayload] = useState<string>();
   const [payloads, setPayloads] = useState<ReactElement[]>([]);
   trpc.useSubscription(['onEmoji'], {
@@ -21,31 +24,46 @@ export const L5Screen: FunctionComponent = () => {
     enabled: true,
   });
 
+  const toastOrigins = ['bottom-left', 'top-left'];
+
+  const randomNumber = (min: number, max: number): number => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+
   return (
     <>
       <FlyingEmojis emoji={payload} emojis={payloads} setEmojis={setPayloads} />
-      <div className="flex w-full h-screen">
-        <div className="w-full h-screen bg-[url('/images/grid.png')] bg-cover text-console font-mono border-2 border-console p-10 rounded-3xl relative">
-          <button
-            className="rounded-xl border-console border-2 mb-2 px-5"
-            onClick={() => setUsers([...users, fakeUsers[Math.floor(Math.random() * (3 + 1))]])}
-          >
-            Add User
-          </button>
-          <p className="text-[6rem] mb-10">Welcome to YW Light Chaser 🚀✨</p>
-          <div className="h-4/5 overflow-hidden">
-            {users.map((s) => (
-              <p
-                key={s}
-                className="text-[2.5rem] mb-1"
-                style={{
-                  color: colors[Math.floor(Math.random() * (5 + 1))],
-                }}
-              >
-                {s} has joined the chat. {emojis[Math.floor(Math.random() * emojis.length)]}
-              </p>
-            ))}
-          </div>
+      <div
+        className="flex w-full h-screen"
+        onClick={() =>
+          toast(`${fakeUsers[randomNumber(0, 3)]}  has joined the chat!`, {
+            theme: 'colored',
+            pauseOnFocusLoss: false,
+            position: toastOrigins[randomNumber(0, 1)] as ToastPosition,
+            type: toastTypes[randomNumber(0, 4)] as TypeOptions,
+
+            icon: '🚀',
+          })
+        }
+      >
+        <div className="w-full relative h-screen flex flex-col items-center justify-center bg-[url('/images/grid.png')] bg-cover text-console  border-2 border-console p-10 rounded-3xl relative">
+          {/* <p className="text-[6rem] font-mono mb-2">Welcome</p> */}
+          <img
+            src="/images/LightChaser_LogoGreen.png"
+            className="z-[1] transform translate-1/2 absolute opacity-25 scale-[175%]"
+            alt="logo"
+          />
+          <p className="text-[8rem] font-jbmono font-bold z-[2] tracking-widest">
+            <Typewriter
+              typeSpeed={100}
+              words={['YW Light Chaser', 'Welcome']}
+              deleteSpeed={150}
+              // delaySpeed={100}
+              loop={0}
+              cursor
+              cursorStyle="█"
+            />
+          </p>
         </div>
         {/* <div className="w-1/5 h-screen border-console border-2">XD</div> */}
       </div>
