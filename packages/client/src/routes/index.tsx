@@ -27,6 +27,7 @@ const publicRoutes = [
     element: <App />,
     children: [
       { path: '/', element: <HomePage /> },
+      { path: '/interactive/*', element: <InteractiveRoutes /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
   },
@@ -44,7 +45,6 @@ const protectedRoutes = (user: User) => [
       { path: '/admin/*', element: <AdminRoutes /> },
       // { path: '/onboard', element: <Onboard /> },
       // { path: '/live', element: <Live /> },
-      { path: '/interactive/*', element: <InteractiveRoutes /> },
       { path: '/tech/*', element: <TechgameRoutes /> },
       { path: '*', element: <Navigate to="/" /> },
     ],

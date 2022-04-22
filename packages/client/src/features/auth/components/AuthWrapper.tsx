@@ -1,12 +1,12 @@
 import { Icon } from '@iconify/react';
 import { Button, Text } from '@nextui-org/react';
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useAuth, useSigninCheck } from 'reactfire';
 
 import { ErrorPage, LoadingPage } from '@/components';
 import { AuthModal, WelcomeModal } from '@/features/auth';
 import { fade } from '@/utils/animation';
-import { toast } from 'react-toastify';
 
 export const AuthWrapper: FunctionComponent = ({ children }) => {
   const [open, setOpen] = useState<boolean>(false);
