@@ -47,6 +47,21 @@ export const fadeToLeft = keyframes({
   },
 });
 
+export const fade = (
+  enter: { x: number; y: number; opacity: number },
+  leave: { x: number; y: number; opacity: number }
+) =>
+  keyframes({
+    '0%': {
+      transform: `translate(${enter.x}px, ${enter.y}px)`,
+      opacity: enter.opacity,
+    },
+    '100%': {
+      transform: `translate(${leave.x}px, ${leave.y}px)`,
+      opacity: leave.opacity,
+    },
+  });
+
 export const animatedText = keyframes({
   '0%': { backgroundPositionX: '0px', backgroundPositionY: '50%' },
   '50%': { backgroundPositionX: '100%', backgroundPositionY: '50%' },

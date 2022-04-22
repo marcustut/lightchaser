@@ -1,9 +1,11 @@
+import { Loading } from '@nextui-org/react';
+import { User } from 'firebase/auth';
 import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import { useSigninCheck } from 'reactfire';
 
 import { AdminRoutes } from '@/features/admin';
-import { Auth } from '@/features/auth';
+import { AppWithUser } from '@/features/auth';
 import { Help } from '@/features/help';
 import { InteractiveRoutes } from '@/features/interactive';
 import { HomePage } from '@/features/landing';
@@ -14,7 +16,7 @@ import { Timer } from '@/features/timer';
 // import { Live } from '@/features/registration';
 
 const App: FunctionComponent = () => (
-  <Suspense fallback={<div>loading...</div>}>
+  <Suspense fallback={<Loading />}>
     <Outlet />
   </Suspense>
 );
@@ -25,8 +27,18 @@ const publicRoutes = [
     element: <App />,
     children: [
       { path: '/', element: <HomePage /> },
-      { path: '/auth', element: <Auth /> },
+      { path: '/interactive/*', element: <InteractiveRoutes /> },
+      { path: '*', element: <Navigate to="/" /> },
+    ],
+  },
+];
 
+const protectedRoutes = (user: User) => [
+  {
+    path: '/',
+    element: <AppWithUser firebaseUser={user} />,
+    children: [
+      { path: '/', element: <Navigate to="timer" /> },
       { path: '/map', element: <Map /> },
       { path: '/timer', element: <Timer /> },
       { path: '/help', element: <Help /> },
@@ -39,8 +51,9 @@ const publicRoutes = [
 ];
 
 export const AppRoutes: FunctionComponent = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useSigninCheck();
-  const element = useRoutes([...publicRoutes]);
+  const element = useRoutes([
+    ...(data.signedIn && data.user ? protectedRoutes(data.user) : publicRoutes),
+  ]);
   return element;
 };

@@ -25,6 +25,7 @@
     "react-router-dom": "6",
     "react-simple-typewriter": "^3.0.1",
     "react-toastify": "^8.2.0",
+    "react-transition-group": "^4.4.2",
     "reactfire": "^4.2.1",
     "zustand": "^3.7.2"
   },
