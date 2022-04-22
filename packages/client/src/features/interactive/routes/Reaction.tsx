@@ -34,12 +34,12 @@ export const InteractiveReaction: FunctionComponent = () => {
   const emojiSplitter = new GraphemeSplitter();
 
   const sendButtonHandler = () => {
+    if (!user) return;
     if (textString === 'SENT!' || textString === WELCOME_TEXT) {
       toast('You must choose one or more emoji', { type: 'error' });
       return;
     }
-    // FIXME: Change uid to an actual user id
-    mutation.mutate({ emoji: textString, uid: 'randomUID' });
+    mutation.mutate({ emoji: textString, uid: user.identityCardNumber });
     if (mutation.isError) {
       toast("You're sending too fast, slow down 😅", { type: 'error' });
     } else {
