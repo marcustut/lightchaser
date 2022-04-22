@@ -73,7 +73,7 @@ export const Timer: FunctionComponent = () => {
         <>
           <Input
             width="100%"
-            labelPlaceholder="🌎 Global Countdown"
+            label="🌎 Global Countdown"
             initialValue={timerGlobal.data}
             onChange={(e) => setGlobalValue(e.target.value)}
           />
@@ -88,7 +88,7 @@ export const Timer: FunctionComponent = () => {
           <Spacer y={2} />
           <Input
             width="100%"
-            labelPlaceholder="🕹 Game Countdown"
+            label="🕹 Game Countdown"
             initialValue={timerGame.data}
             onChange={(e) => setGameValue(e.target.value)}
           />
