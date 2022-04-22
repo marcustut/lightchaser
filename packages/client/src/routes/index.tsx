@@ -1,5 +1,6 @@
 import { Suspense, FunctionComponent } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
+import { useSigninCheck } from 'reactfire';
 
 import { AdminRoutes } from '@/features/admin';
 import { Auth } from '@/features/auth';
@@ -25,6 +26,7 @@ const publicRoutes = [
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/auth', element: <Auth /> },
+
       { path: '/map', element: <Map /> },
       { path: '/timer', element: <Timer /> },
       { path: '/help', element: <Help /> },
@@ -39,6 +41,8 @@ const publicRoutes = [
 ];
 
 export const AppRoutes: FunctionComponent = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data } = useSigninCheck();
   const element = useRoutes([...publicRoutes]);
   return element;
 };

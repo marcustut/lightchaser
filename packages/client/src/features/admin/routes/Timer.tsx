@@ -1,28 +1,46 @@
-import { Button, Input, Loading } from '@nextui-org/react';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { Button, Input, Loading, Spacer, useInput } from '@nextui-org/react';
+import { FunctionComponent, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import { AppLayout } from '@/components';
 import { trpc } from '@/lib/trpc';
 
 export const Timer: FunctionComponent = () => {
-  const [input, setInput] = useState<string>('');
-  const timer = trpc.useQuery(['timer.get']);
-  const mutation = trpc.useMutation('timer.update');
+  const { value: globalValue, setValue: setGlobalValue } = useInput('');
+  const { value: gameValue, setValue: setGameValue } = useInput('');
+  const timerGlobal = trpc.useQuery(['timer.get']);
+  const mutationGlobal = trpc.useMutation('timer.update');
+  const timerGame = trpc.useQuery(['gametimer.get']);
+  const mutationGame = trpc.useMutation('gametimer.update');
 
   useEffect(() => {
-    if (!timer.data) return;
-    if (input === '') setInput(timer.data);
-  }, [input, timer]);
+    if (!timerGlobal.data) return;
+    if (globalValue === '') setGlobalValue(timerGlobal.data);
+  }, [globalValue, setGlobalValue, timerGlobal]);
 
-  const handleTimerUpdate = async () => {
-    await mutation.mutateAsync(new Date(input));
-    if (mutation.isError) {
-      toast(mutation.error.message, { type: 'error' });
+  useEffect(() => {
+    if (!timerGame.data) return;
+    if (gameValue === '') setGameValue(timerGame.data);
+  }, [gameValue, setGameValue, timerGame]);
+
+  const handleGlobalTimerUpdate = async () => {
+    await mutationGlobal.mutateAsync(new Date(globalValue));
+    if (mutationGlobal.isError) {
+      toast(mutationGlobal.error.message, { type: 'error' });
       return;
     }
-    await timer.refetch();
-    toast('timer is updated ✅', { type: 'success' });
+    await timerGlobal.refetch();
+    toast('global timer is updated ✅', { type: 'success' });
+  };
+
+  const handleGameTimerUpdate = async () => {
+    await mutationGame.mutateAsync(new Date(gameValue));
+    if (mutationGame.isError) {
+      toast(mutationGame.error.message, { type: 'error' });
+      return;
+    }
+    await timerGame.refetch();
+    toast('game timer is updated ✅', { type: 'success' });
   };
 
   return (
@@ -49,21 +67,36 @@ export const Timer: FunctionComponent = () => {
         height: 'calc(100vh - 84px)',
       }}
     >
-      {timer.isLoading || !timer.data ? (
+      {timerGlobal.isLoading || !timerGlobal.data ? (
         <Loading />
       ) : (
         <>
           <Input
             width="100%"
-            labelPlaceholder="Countdown To"
-            initialValue={timer.data}
-            onChange={(e) => setInput(e.target.value)}
+            label="🌎 Global Countdown"
+            initialValue={timerGlobal.data}
+            onChange={(e) => setGlobalValue(e.target.value)}
           />
           <Button
             size="sm"
-            disabled={input === timer.data}
+            disabled={globalValue === timerGlobal.data}
             css={{ marginTop: '$6' }}
-            onClick={handleTimerUpdate}
+            onClick={handleGlobalTimerUpdate}
+          >
+            Change
+          </Button>
+          <Spacer y={2} />
+          <Input
+            width="100%"
+            label="🕹 Game Countdown"
+            initialValue={timerGame.data}
+            onChange={(e) => setGameValue(e.target.value)}
+          />
+          <Button
+            size="sm"
+            disabled={gameValue === timerGame.data}
+            css={{ marginTop: '$6' }}
+            onClick={handleGameTimerUpdate}
           >
             Change
           </Button>

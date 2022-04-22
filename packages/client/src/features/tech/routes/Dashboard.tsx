@@ -1,7 +1,10 @@
+import { Loading } from '@nextui-org/react';
 import { FunctionComponent, useEffect, useState } from 'react';
 // import { AiFillLock } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+import { trpc } from '@/lib/trpc';
 import { useTech } from '@/store/useTech';
 
 const tasks = [
@@ -10,20 +13,32 @@ const tasks = [
   { task: 3, taskName: 'Task 3', to: '/tech/S3' },
 ];
 
-const SESSIONTIMEINSECONDS = 1800;
-
 export const TechDashboard: FunctionComponent = () => {
-  const [seconds, setSeconds] = useState(SESSIONTIMEINSECONDS);
+  const [seconds, setSeconds] = useState<number>();
   const { gameState } = useTech();
+  trpc.useSubscription(['gametimer.realtime'], {
+    onNext(data) {
+      const seconds = Math.round(
+        (new Date(data.replace('Z', '+08:00')).getTime() - new Date().getTime()) / 1000
+      );
+      setSeconds(seconds);
+    },
+    onError(err) {
+      console.error(err);
+      toast('A server error has occured 🥲', { type: 'error' });
+    },
+  });
 
   useEffect(() => {
+    if (!seconds) return;
     const interval = setInterval(() => {
-      setSeconds((s) => (s != 0 ? s - 1 : s));
+      setSeconds(seconds != 0 ? seconds - 1 : seconds);
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [seconds]);
 
   const timeLeft = () => {
+    if (!seconds) return;
     const splittedMin = (seconds / 60).toString().split('.')[0];
     const splittedSec = seconds - parseInt(splittedMin) * 60;
 
@@ -48,7 +63,7 @@ export const TechDashboard: FunctionComponent = () => {
       </div>
       <div className="border-2 border-console rounded-2xl w-full h-[100px] flex items-center">
         <p className="w-full text-center font-lato font-bold text-3xl tracking-wider">
-          {timeLeft()}
+          {timeLeft() ? timeLeft() : <Loading />}
         </p>
       </div>
       {/* <div
@@ -71,10 +86,10 @@ const TaskButton: FunctionComponent<TaskButtonProps> = ({ completion, task, onCl
     <button
       onClick={onClick}
       disabled={completion}
-      className="flex flex-col border-console border-2 rounded-2xl w-full py-2 items-center justify-center disabled:border-disabled"
+      className="flex-col items-center border-console border-2 rounded-2xl w-full py-2 justify-center disabled:border-disabled"
     >
-      <div className="text-console h-[40px] mt-2 text-xl">{task}</div>
-      <div className="">{completion ? '✔️' : '❌'}</div>
+      <div className="text-console text-center h-[40px] mt-2 text-xl">{task}</div>
+      <div className="text-center">{completion ? '✔️' : '❌'}</div>
     </button>
   );
 };

@@ -22,10 +22,19 @@ const ContactCard: FunctionComponent<ContactCardProps> = ({
       <Text h3 weight="semibold" size="large">
         {name}
       </Text>
-      <Text color="$accents4">{description}</Text>
+      <Text color="$accents4" css={{ whiteSpace: 'pre-wrap' }}>
+        {description}
+      </Text>
       <Card.Footer>
         <Link css={{ color: '$blue500' }} href={`tel:${contactNumber}`}>
-          📞 Call him
+          📞 Open in Caller
+        </Link>
+        <Link
+          css={{ color: '$green500', marginLeft: '$4' }}
+          href={`https://wa.me/${contactNumber}`}
+          target="_blank"
+        >
+          💬 Open in WhatsApp
         </Link>
       </Card.Footer>
     </Card>
@@ -53,15 +62,19 @@ export const Help: FunctionComponent = () => {
           </Text>
         </Center>
       ) : (
-        contacts.data.map(({ name, description, contactNumber }) => (
-          <ContactCard
-            key={name}
-            name={name}
-            description={description}
-            contactNumber={contactNumber}
-            css={{ mt: '$6' }}
-          />
-        ))
+        contacts.data
+          .sort((a, b) =>
+            b.description > a.description ? 1 : a.description > b.description ? -1 : 0
+          )
+          .map(({ name, description, contactNumber }) => (
+            <ContactCard
+              key={name}
+              name={name}
+              description={description}
+              contactNumber={contactNumber}
+              css={{ mt: '$6' }}
+            />
+          ))
       )}
     </AppLayout>
   );

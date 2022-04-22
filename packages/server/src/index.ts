@@ -129,6 +129,50 @@ export const appRouter = trpc
       return timer.endAt.toISOString();
     },
   })
+  .subscription('gametimer.realtime', {
+    resolve: async () => {
+      const timer = await prisma.timer.findUnique({ where: { id: 2 } });
+      if (!timer)
+        throw new trpc.TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '`Timer` table is not initialized properly.',
+        });
+
+      return new trpc.Subscription<string>((emit) => {
+        // broadcast timer
+        const broadcast = (timer: Timer) => emit.data(timer.endAt.toISOString());
+        // broadcast the timer to listener on connect
+        broadcast(timer);
+
+        // listen on db updates
+        ee.on('gametimer.update', broadcast);
+
+        // unsubscribe listener
+        return () => ee.off('gametimer.update', broadcast);
+      });
+    },
+  })
+  .mutation('gametimer.update', {
+    input: timerInput,
+    resolve: async ({ input }) => {
+      const timer = await prisma.timer.update({
+        data: { endAt: input },
+        where: { id: 2 },
+      });
+      ee.emit('gametimer.update', timer);
+    },
+  })
+  .query('gametimer.get', {
+    resolve: async () => {
+      const timer = await prisma.timer.findUnique({ where: { id: 2 } });
+      if (!timer)
+        throw new trpc.TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '`Timer` table is not initialized properly.',
+        });
+      return timer.endAt.toISOString();
+    },
+  })
   .mutation('contact.add', {
     input: contactAddInput,
     resolve: async ({ input }) =>

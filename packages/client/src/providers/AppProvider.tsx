@@ -1,10 +1,12 @@
 import { NextUIProvider } from '@nextui-org/react';
 import { AppRouter } from '@opening/server/dist/index';
 import { wsLink, createWSClient } from '@trpc/client/links/wsLink';
-import { FunctionComponent, Suspense, useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import { FunctionComponent, Suspense, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { AuthProvider, useFirebaseApp } from 'reactfire';
 
 import { PWAReloadPrompt } from '@/components';
 import { trpc } from '@/lib/trpc';
@@ -28,18 +30,25 @@ export const AppProvider: FunctionComponent = ({ children }) => {
       links: [getEndingLink()],
     })
   );
+  const auth = getAuth(useFirebaseApp());
+
+  useEffect(() => {
+    auth.useDeviceLanguage();
+  }, [auth]);
 
   return (
     <Suspense fallback={<div>TODO fallback</div>}>
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>
-          <NextUIProvider theme={theme}>
-            <BrowserRouter>{children}</BrowserRouter>
-            <ToastContainer position="top-center" theme="dark" />
-            <PWAReloadPrompt />
-          </NextUIProvider>
-        </QueryClientProvider>
-      </trpc.Provider>
+      <AuthProvider sdk={auth}>
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <NextUIProvider theme={theme}>
+              <BrowserRouter>{children}</BrowserRouter>
+              <ToastContainer position="top-center" theme="dark" />
+              <PWAReloadPrompt />
+            </NextUIProvider>
+          </QueryClientProvider>
+        </trpc.Provider>
+      </AuthProvider>
     </Suspense>
   );
 };
