@@ -1,3 +1,4 @@
+// import { trpc } from '@/lib/trpc';
 import { Button, Input, Loading, Modal, Text } from '@nextui-org/react';
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { FunctionComponent, useCallback, useState } from 'react';
@@ -46,6 +47,8 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
       toast('phone number invalid', { type: 'error' });
       return;
     }
+
+    // const user = trpc.useQuery(['user.get', { contactNumber: phoneNumber }]);
 
     // generate recaptcha
     const recaptchaVerifier = generateRecaptcha();
@@ -178,11 +181,11 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
           <div id="recaptcha-container" className="flex justify-center items-center z-10" />
           {!otpSent ? (
             <Button auto onClick={requestOTP} disabled={loading}>
-              {loading ? <Loading /> : <Text weight="bold">Send Code</Text>}
+              {loading ? <Loading size="xs" /> : <Text weight="bold">Send Code</Text>}
             </Button>
           ) : (
             <Button auto onClick={verifyOTP} disabled={loading}>
-              {loading ? <Loading /> : <Text weight="bold">Verify OTP</Text>}
+              {loading ? <Loading size="xs" /> : <Text weight="bold">Verify OTP</Text>}
             </Button>
           )}
         </Modal.Body>
