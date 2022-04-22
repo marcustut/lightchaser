@@ -36,7 +36,7 @@ model Team {
   tgOneCompleted   Boolean  @default(false)
   tgTwoCompleted   Boolean  @default(false)
   tgThreeCompleted Boolean  @default(false)
-  set              Int      @default(0)
+  set              Int      @default(dbgenerated("floor(random() * 5 + 1)::int"))
   Leader           User     @relation("Leader", fields: [leaderId], references: [identityCardNumber])
   leaderId         String   @unique
   User             User[]

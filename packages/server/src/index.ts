@@ -224,7 +224,7 @@ export const appRouter = trpc
     },
   })
   .query('user.all', {
-    resolve: async () => await prisma.team.findMany(),
+    resolve: async () => await prisma.user.findMany(),
   })
   .query('team.get', {
     input: teamGetInput,

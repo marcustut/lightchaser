@@ -1,9 +1,12 @@
-// import { trpc } from '@/lib/trpc';
-import { Button, Input, Loading, Modal, Text } from '@nextui-org/react';
+import { Button, Card, Col, Input, Loading, Modal, Row, Spacer, Text } from '@nextui-org/react';
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { FunctionComponent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAuth } from 'reactfire';
+
+import { useDebounce } from '@/hooks';
+import { trpc } from '@/lib/trpc';
+import { useUser } from '@/store/useUser';
 
 interface AuthModalProps {
   open: boolean;
@@ -13,6 +16,7 @@ interface AuthModalProps {
 export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) => {
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult>();
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState('');
   const [otp, setOtp] = useState<[string, string, string, string, string, string]>([
     '',
     '',
@@ -23,7 +27,11 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
   ]);
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const debouncedSearchText = useDebounce(searchText);
   const auth = useAuth();
+  const { setUser } = useUser();
+  const users = trpc.useQuery(['user.all']);
 
   const generateRecaptcha = useCallback(() => {
     return new RecaptchaVerifier(
@@ -36,7 +44,8 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
     );
   }, [auth]);
 
-  const requestOTP = useCallback(() => {
+  const requestOTP = useCallback(async () => {
+    if (!users.data) return;
     setLoading(true);
 
     const pn = `+60${phoneNumber}`;
@@ -48,7 +57,12 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
       return;
     }
 
-    // const user = trpc.useQuery(['user.get', { contactNumber: phoneNumber }]);
+    if (!users.data.find((u) => u.contactNumber.includes(phoneNumber))) {
+      setLoading(false);
+      setError('Unable to find this phone number');
+      toast('phone number is not registered', { type: 'error' });
+      return;
+    }
 
     // generate recaptcha
     const recaptchaVerifier = generateRecaptcha();
@@ -67,9 +81,11 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
       .finally(() => {
         setLoading(false);
       });
-  }, [auth, generateRecaptcha, phoneNumber]);
+  }, [auth, generateRecaptcha, phoneNumber, users]);
 
   const verifyOTP = () => {
+    if (!users.data) return;
+
     setLoading(true);
     if (!confirmationResult) {
       setLoading(false);
@@ -86,10 +102,15 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
 
     confirmationResult
       .confirm(otp.join(''))
-      .then((result) => {
+      .then(() => {
+        const user = users.data.find((u) => u.contactNumber.includes(phoneNumber));
+        if (!user) {
+          auth.signOut();
+          toast('an error occured', { type: 'error' });
+          return;
+        }
+        setUser(user);
         toast('successfully logged in', { type: 'success' });
-        const user = result.user;
-        console.log(user);
       })
       .catch((err) => {
         toast('OTP is incorrect', { type: 'error' });
@@ -126,6 +147,50 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
             inputMode="tel"
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
+          {error && users.data && (
+            <>
+              <Col>
+                <Row css={{ display: 'flex', flexDirection: 'column' }}>
+                  <Text color="error">{error}</Text>
+                  <Text color="error">Click your name from the list</Text>
+                </Row>
+                <Spacer y={1} />
+                <Row>
+                  <Input
+                    inputMode="search"
+                    bordered
+                    fullWidth
+                    placeholder="Try searching yourself (eg. name / IC number)"
+                    onChange={(e) => setSearchText(e.target.value)}
+                  />
+                </Row>
+                {debouncedSearchText.length > 3 &&
+                  users.data
+                    .filter((user) =>
+                      `${user.name.toLowerCase()},${user.identityCardNumber},${
+                        user.contactNumber
+                      }`.includes(debouncedSearchText.toLowerCase())
+                    )
+                    .map((user, idx) => (
+                      <Card
+                        key={user.identityCardNumber}
+                        clickable
+                        css={{ borderWidth: '0', marginTop: idx === 0 ? '$8' : '$4' }}
+                        color="primary"
+                        onClick={() =>
+                          window.open(
+                            `https://wa.me/+60163066883?text=${encodeURI(
+                              `Hi, *${user.name}* here\nI was not able to login and my IC Number is *_${user.identityCardNumber}_* and the registered phone number is *_${user.contactNumber}_*`
+                            )}`
+                          )
+                        }
+                      >
+                        <Text weight="bold">{user.name}</Text>
+                      </Card>
+                    ))}
+              </Col>
+            </>
+          )}
           {otpSent && (
             <div className="w-full flex justify-between">
               <Input

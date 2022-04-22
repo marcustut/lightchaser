@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 export const userGetInput = z.object({
-  identityCardNumber: z.string().nonempty().optional(),
-  contactNumber: z.string().nonempty().optional(),
+  identityCardNumber: z.string().optional(),
+  contactNumber: z.string().optional(),
 });
+
+export { User } from '@prisma/client';
