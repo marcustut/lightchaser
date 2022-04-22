@@ -93,7 +93,7 @@ export const AuthWrapper: FunctionComponent = ({ children }) => {
           {!open && (
             <AuthButton variant="login" scrolling={scrolling} onClick={() => setOpen(true)} />
           )}
-          <WelcomeModal open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
+          {/* <WelcomeModal open={welcomeOpen} onClose={() => setWelcomeOpen(false)} /> */}
           <AuthModal open={open} onClose={() => setOpen(false)} />
         </>
       ) : (
