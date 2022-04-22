@@ -7,4 +7,8 @@ export const teamGetInput = z.object({
 
 export const teamUpdateInput = z.object({
   id: z.number().nonnegative(),
+  newPoints: z.number().nonnegative().optional(),
+  newTgOneCompleted: z.boolean().optional(),
+  newTgTwoCompleted: z.boolean().optional(),
+  newTgThreeCompleted: z.boolean().optional(),
 });

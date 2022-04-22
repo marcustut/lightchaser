@@ -1,3 +1,4 @@
+// import { trpc } from '@/lib/trpc';
 import { Button, Input, Loading, Modal, Text } from '@nextui-org/react';
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { FunctionComponent, useCallback, useState } from 'react';
@@ -38,21 +39,25 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
   const requestOTP = useCallback(() => {
     setLoading(true);
 
+    const pn = `+60${phoneNumber}`;
+
     // validate phone number
-    if (!phoneNumber.match(/^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/)) {
+    if (!pn.match(/^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/)) {
       setLoading(false);
       toast('phone number invalid', { type: 'error' });
       return;
     }
 
+    // const user = trpc.useQuery(['user.get', { contactNumber: phoneNumber }]);
+
     // generate recaptcha
     const recaptchaVerifier = generateRecaptcha();
 
     // send otp
-    signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
+    signInWithPhoneNumber(auth, pn, recaptchaVerifier)
       .then((confirmationResult) => {
         setOtpSent(true);
-        toast(`OTP had been sent to ${phoneNumber}`, { type: 'success' });
+        toast(`OTP had been sent to ${pn}`, { type: 'success' });
         setConfirmationResult(confirmationResult);
       })
       .catch((err) => {
@@ -103,15 +108,22 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
             alt="title"
           />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body css={{ paddingBottom: '$12' }}>
           <Input
-            clearable
             bordered
             fullWidth
             color="primary"
             size="lg"
+            maxLength={10}
             placeholder="Phone Number..."
-            contentLeft={<p className="text-lg text-console">{'>'}</p>}
+            contentLeftStyling={false}
+            contentLeft={
+              <p className="pl-4 -mr-2 text-lg font-bold whitespace-nowrap text-clip text-console">
+                {'> +60'}
+              </p>
+            }
+            css={{ fontWeight: 'bold' }}
+            inputMode="tel"
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
           {otpSent && (
@@ -169,11 +181,11 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
           <div id="recaptcha-container" className="flex justify-center items-center z-10" />
           {!otpSent ? (
             <Button auto onClick={requestOTP} disabled={loading}>
-              {loading ? <Loading /> : <Text weight="bold">Send Code</Text>}
+              {loading ? <Loading size="xs" /> : <Text weight="bold">Send Code</Text>}
             </Button>
           ) : (
             <Button auto onClick={verifyOTP} disabled={loading}>
-              {loading ? <Loading /> : <Text weight="bold">Verify OTP</Text>}
+              {loading ? <Loading size="xs" /> : <Text weight="bold">Verify OTP</Text>}
             </Button>
           )}
         </Modal.Body>

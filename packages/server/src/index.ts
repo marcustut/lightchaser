@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import http from 'http';
 
-import { PrismaClient, Timer } from '@prisma/client';
+import { PrismaClient, Team, Timer } from '@prisma/client';
 import * as trpc from '@trpc/server';
 import { createHTTPHandler } from '@trpc/server/adapters/standalone';
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
@@ -12,8 +12,9 @@ import 'dotenv/config';
 
 import { contactAddInput, contactDeleteInput, contactUpdateInput } from './entity/contact';
 import { emojiInput, emojiOutput } from './entity/emoji';
-import { teamGetInput } from './entity/team';
+import { teamGetInput, teamUpdateInput } from './entity/team';
 import { timerInput } from './entity/timer';
+import { userGetInput } from './entity/user';
 import { registrationHandler } from './handlers';
 import { Context } from './utils/context';
 import { loadEnv } from './utils/environment';
@@ -204,17 +205,66 @@ export const appRouter = trpc
   .query('contact.all', {
     resolve: async () => await prisma.contact.findMany(),
   })
+  .query('user.get', {
+    input: userGetInput,
+    resolve: async ({ input }) => {
+      if (input.identityCardNumber)
+        return await prisma.user.findUnique({
+          where: { identityCardNumber: input.identityCardNumber },
+        });
+      else if (input.contactNumber)
+        return await prisma.user.findFirst({
+          where: { contactNumber: { contains: input.contactNumber } },
+        });
+      else
+        throw new trpc.TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'either `identityCardNumber` or `contactNumber` must be provided',
+        });
+    },
+  })
+  .query('user.all', {
+    resolve: async () => await prisma.team.findMany(),
+  })
   .query('team.get', {
     input: teamGetInput,
     resolve: async ({ input }) => await prisma.team.findUnique({ where: input }),
   })
   .query('team.all', {
     resolve: async () => await prisma.team.findMany(),
+  })
+  .subscription('team.realtime', {
+    resolve: async () => {
+      const teams = await prisma.team.findMany();
+      return new trpc.Subscription<Team[]>((emit) => {
+        // broadcast teams
+        const broadcast = (teams: Team[]) => emit.data(teams);
+        // broadcast the teams to listener on connect
+        broadcast(teams);
+
+        // listen on db updates
+        ee.on('team.update', broadcast);
+
+        // unsubscribe listener
+        return () => ee.off('team.update', broadcast);
+      });
+    },
+  })
+  .mutation('team.update', {
+    input: teamUpdateInput,
+    resolve: async ({ input }) => {
+      await prisma.team.update({
+        where: { id: input.id },
+        data: {
+          points: input.newPoints,
+          tgOneCompleted: input.newTgOneCompleted,
+          tgTwoCompleted: input.newTgTwoCompleted,
+          tgThreeCompleted: input.newTgThreeCompleted,
+        },
+      });
+      ee.emit('gametimer.update', await prisma.team.findMany());
+    },
   });
-// .mutation('team.update', {
-//   input: teamUpdateInput,
-//   resolve: async ({ input }) => await prisma.team.update(),
-// });
 
 export type AppRouter = typeof appRouter;
 

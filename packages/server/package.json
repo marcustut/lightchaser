@@ -8,7 +8,8 @@
     "start": "yarn dev",
     "build": "yarn clean && yarn generate && tsc && mv dist/src/* dist/",
     "clean": "npx rimraf dist",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "playground": "ts-node prisma/playground.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

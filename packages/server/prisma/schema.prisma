@@ -33,10 +33,10 @@ model Team {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   points           Int      @default(0)
-  startingPoint    Station
   tgOneCompleted   Boolean  @default(false)
   tgTwoCompleted   Boolean  @default(false)
   tgThreeCompleted Boolean  @default(false)
+  set              Int      @default(0)
   Leader           User     @relation("Leader", fields: [leaderId], references: [identityCardNumber])
   leaderId         String   @unique
   User             User[]
