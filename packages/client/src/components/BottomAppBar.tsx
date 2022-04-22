@@ -57,6 +57,11 @@ interface BottomAppBarProps {
 export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({
   options = [
     {
+      href: '/interactive',
+      icon: 'heroicons-outline:lightning-bolt',
+      text: 'Reaction',
+    },
+    {
       href: '/timer',
       icon: 'heroicons-outline:clock',
       text: 'Timer',
@@ -77,12 +82,14 @@ export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({
     <Grid.Container
       justify="space-evenly"
       css={{
+        backgroundColor: '$background',
         position: 'fixed',
         paddingTop: '$6',
         paddingBottom: '$6',
         bottom: 0,
         left: 0,
         right: 0,
+        zIndex: 1,
       }}
     >
       {options.map((o, idx) => (

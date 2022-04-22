@@ -224,7 +224,7 @@ export const appRouter = trpc
     },
   })
   .query('user.all', {
-    resolve: async () => await prisma.team.findMany(),
+    resolve: async () => await prisma.user.findMany(),
   })
   .query('team.get', {
     input: teamGetInput,
@@ -263,6 +263,26 @@ export const appRouter = trpc
         },
       });
       ee.emit('gametimer.update', await prisma.team.findMany());
+    },
+  })
+  .subscription('presence.realtime', {
+    resolve: async () => {
+      return new trpc.Subscription<string>((emit) => {
+        // broadcast presence
+        const broadcast = (user: string) => emit.data(user);
+
+        // listen on db updates
+        ee.on('presence.add', broadcast);
+
+        // unsubscribe listener
+        return () => ee.off('presence.add', broadcast);
+      });
+    },
+  })
+  .mutation('presence.add', {
+    input: z.string(),
+    resolve: async ({ input }) => {
+      if (input !== '') ee.emit('presence.add', input);
     },
   });
 

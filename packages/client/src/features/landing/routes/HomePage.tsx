@@ -8,34 +8,37 @@ import 'fullpage.js/vendors/scrolloverflow';
 interface FullpageWrapperProps {
   api?: fullpageApi;
   state?: any;
+  skipStory?: boolean;
 }
 
-const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = () => {
+const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = ({ skipStory = false }) => {
   const [ended1, setEnded1] = useState<boolean>(false);
   const [ended2, setEnded2] = useState<boolean>(false);
   const [ended3, setEnded3] = useState<boolean>(false);
   const [ended4, setEnded4] = useState<boolean>(false);
   return (
     <ReactFullpage.Wrapper>
-      <div className="section" style={{ display: 'flex' }}>
-        <div className="flex flex-col mt-2 p-5">
-          <div className="flex flex-col  mb-5">
-            <p className="font-chi text-white text-3xl ">追光者</p>
-            <p className="font-bmonument text-white text-2xl tracking-wider">Light Chaser</p>
+      {!skipStory && (
+        <div className="section" style={{ display: 'flex' }}>
+          <div className="flex flex-col mt-2 p-5">
+            <div className="flex flex-col  mb-5">
+              <p className="font-chi text-white text-3xl ">追光者</p>
+              <p className="font-bmonument text-white text-2xl tracking-wider">Light Chaser</p>
+            </div>
+            <p className="font-bold whitespace-pre-wrap text-console text-lg">
+              <Typewriter
+                typeSpeed={100}
+                words={[
+                  '此刻太阳的寿命还剩4个小时。\n\n4小时后，地球将变得一片漆黑而一切都走向灭亡。唯一解救的方法，需要从神秘基地收集光的能量来重启。人类已经崛起并聚集成为无数的小队克服障碍找寻能量。\n\n光的能量足够供应给一个小队\n其他的小队将面对灭亡。',
+                ]}
+                loop={1}
+                cursor
+                cursorStyle="█"
+              />
+            </p>
           </div>
-          <p className="font-bold whitespace-pre-wrap text-console text-lg">
-            <Typewriter
-              typeSpeed={100}
-              words={[
-                '此刻太阳的寿命还剩4个小时。\n\n4小时后，地球将变得一片漆黑而一切都走向灭亡。唯一解救的方法，需要从神秘基地收集光的能量来重启。人类已经崛起并聚集成为无数的小队克服障碍找寻能量。\n\n光的能量足够供应给一个小队\n其他的小队将面对灭亡。',
-              ]}
-              loop={1}
-              cursor
-              cursorStyle="█"
-            />
-          </p>
         </div>
-      </div>
+      )}
       <div className="section" style={{ display: 'flex' }}>
         <div className="flex flex-col mt-2 p-5">
           <div className="flex flex-col  mb-5">
@@ -156,21 +159,31 @@ const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = () => {
   );
 };
 
-export const HomePage: FunctionComponent = () => {
+interface HomePageProps {
+  topBar?: boolean;
+  skipStory?: boolean;
+}
+
+export const HomePage: FunctionComponent<HomePageProps> = ({
+  topBar = true,
+  skipStory = false,
+}) => {
   return (
     <>
-      <div className="sticky bg-black top-0 border-b-2 border-console flex h-[60px] items-center px-7 justify-between z-10">
-        <p className="bg-black text-console font-jbmono text-lg font-extrabold tracking-[0.015em]">
-          <Typewriter
-            typeSpeed={150}
-            words={['Welcome to Light Chaser']}
-            loop={1}
-            cursor
-            cursorStyle="█"
-          />
-        </p>
-        <p className="text-lg font-jbmono text-console">{'>'}</p>
-      </div>
+      {topBar && (
+        <div className="sticky bg-black top-0 border-b-2 border-console flex h-[60px] items-center px-7 justify-between z-10">
+          <p className="bg-black text-console font-jbmono text-lg font-extrabold tracking-[0.015em]">
+            <Typewriter
+              typeSpeed={150}
+              words={['Welcome to Light Chaser']}
+              loop={1}
+              cursor
+              cursorStyle="█"
+            />
+          </p>
+          <p className="text-lg font-jbmono text-console">{'>'}</p>
+        </div>
+      )}
       <ReactFullpage
         autoScrolling
         scrollBar={false}
@@ -179,7 +192,9 @@ export const HomePage: FunctionComponent = () => {
         debug
         anchors={['Title', 'ChaosArena', 'BlackMarket', 'LostZone', 'InfinityCity']}
         licenseKey="596092E9-41624545-A1E5A2C7-C11E8634"
-        render={({ fullpageApi, state }) => <FullpageWrapper api={fullpageApi} state={state} />}
+        render={({ fullpageApi, state }) => (
+          <FullpageWrapper api={fullpageApi} state={state} skipStory={skipStory} />
+        )}
       />
     </>
   );

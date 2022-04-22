@@ -1,8 +1,10 @@
 import GraphemeSplitter from 'grapheme-splitter';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { BottomAppBar } from '@/components';
 import { trpc } from '@/lib/trpc';
+import { useUser } from '@/store/useUser';
 
 const reactionEmojis = ['💕', '🔥', '✨', '👾', '👽', 'SEND'];
 
@@ -12,6 +14,22 @@ const TOAST_TTL = 2000;
 export const InteractiveReaction: FunctionComponent = () => {
   const [textString, setTextString] = useState(WELCOME_TEXT);
   const mutation = trpc.useMutation('addEmoji');
+  const { user } = useUser();
+  const goOnline = trpc.useMutation('presence.add');
+
+  useEffect(() => {
+    if (!user) {
+      toast('login is required', {
+        type: 'warning',
+        autoClose: false,
+        closeOnClick: false,
+        closeButton: false,
+      });
+      return;
+    }
+    goOnline.mutate(user.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const emojiSplitter = new GraphemeSplitter();
 
@@ -31,7 +49,14 @@ export const InteractiveReaction: FunctionComponent = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex-col">
+    <div
+      className="w-screen flex-col"
+      style={{
+        height: 'calc(100vh - 84px)',
+        pointerEvents: !user ? 'none' : 'auto',
+        opacity: !user ? 0.5 : 1,
+      }}
+    >
       <div className="flex justify-center h-3/5 items-center w-full relative">
         <p className="text-3xl text-center">{textString}</p>
         <div className="absolute z-10 bottom-3 h-[40px] px-5 w-full">
@@ -69,6 +94,7 @@ export const InteractiveReaction: FunctionComponent = () => {
           />
         ))}
       </div>
+      <BottomAppBar />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import { AppLayout } from '@/components';
 import { trpc } from '@/lib/trpc';
+import { useUser } from '@/store/useUser';
 import { animatedText } from '@/utils/animation';
 
 const digitSegments = [
@@ -30,6 +31,9 @@ export const Timer: FunctionComponent = () => {
       toast('A server error has occured 🥲', { type: 'error' });
     },
   });
+  const { user } = useUser();
+
+  console.log(user);
 
   useEffect(() => {
     if (!endDate) return;
