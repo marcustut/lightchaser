@@ -8,13 +8,58 @@ import { ErrorPage, LoadingPage } from '@/components';
 import { AuthModal, WelcomeModal } from '@/features/auth';
 import { fade } from '@/utils/animation';
 
+interface AuthButtonProps {
+  scrolling: boolean;
+  variant: 'login' | 'logout';
+  onClick?: () => void;
+}
+
+const AuthButton: FunctionComponent<AuthButtonProps> = ({ scrolling, onClick, variant }) => {
+  const auth = useAuth();
+
+  return (
+    <Button
+      flat
+      auto
+      color={variant === 'login' ? 'success' : 'error'}
+      css={{
+        position: 'fixed',
+        top: variant === 'logout' ? '$8' : 'unset',
+        bottom: variant === 'login' ? '$8' : 'unset',
+        right: '$8',
+        zIndex: '$1',
+        animation: `${
+          !scrolling
+            ? fade({ x: 0, y: 50, opacity: 0 }, { x: 0, y: 0, opacity: 1 })
+            : fade({ x: 0, y: 0, opacity: 1 }, { x: 0, y: 100, opacity: 0 })
+        } 0.5s ease forwards`,
+      }}
+      onClick={
+        variant === 'logout'
+          ? () => auth.signOut().then(() => toast('successfully signed out', { type: 'success' }))
+          : onClick
+          ? onClick
+          : () => {}
+      }
+    >
+      <Icon
+        icon={`heroicons-outline:${variant == 'login' ? 'login' : 'logout'}`}
+        width={20}
+        style={{ marginRight: 4 }}
+      />
+      <Text color={variant === 'login' ? 'success' : 'error'} weight="semibold">
+        {variant === 'login' ? 'Login' : 'Log Out'}
+      </Text>
+    </Button>
+  );
+};
+
 export const AuthWrapper: FunctionComponent = ({ children }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [welcomeOpen, setWelcomeOpen] = useState<boolean>(false);
   const [scrolling, setScrolling] = useState<boolean>(false);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   const { status, data } = useSigninCheck();
-  const auth = useAuth();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -46,57 +91,13 @@ export const AuthWrapper: FunctionComponent = ({ children }) => {
       {!data.signedIn ? (
         <>
           {!open && (
-            <Button
-              flat
-              auto
-              color="success"
-              css={{
-                position: 'fixed',
-                bottom: '$8',
-                right: '$8',
-                zIndex: '$1',
-                animation: `${
-                  !scrolling
-                    ? fade({ x: 0, y: 50, opacity: 0 }, { x: 0, y: 0, opacity: 1 })
-                    : fade({ x: 0, y: 0, opacity: 1 }, { x: 0, y: 100, opacity: 0 })
-                } 0.5s ease forwards`,
-              }}
-              onClick={() => setOpen(true)}
-            >
-              <Icon icon="heroicons-outline:login" width={20} style={{ marginRight: 4 }} />
-              <Text color="success" weight="semibold">
-                Login
-              </Text>
-            </Button>
+            <AuthButton variant="login" scrolling={scrolling} onClick={() => setOpen(true)} />
           )}
           <WelcomeModal open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
           <AuthModal open={open} onClose={() => setOpen(false)} />
         </>
       ) : (
-        <Button
-          flat
-          auto
-          color="error"
-          css={{
-            position: 'fixed',
-            top: '$8',
-            right: '$8',
-            zIndex: '$1',
-            animation: `${
-              !scrolling
-                ? fade({ x: 0, y: 50, opacity: 0 }, { x: 0, y: 0, opacity: 1 })
-                : fade({ x: 0, y: 0, opacity: 1 }, { x: 0, y: 100, opacity: 0 })
-            } 0.5s ease forwards`,
-          }}
-          onClick={() =>
-            auth.signOut().then(() => toast('successfully signed out', { type: 'success' }))
-          }
-        >
-          <Icon icon="heroicons-outline:logout" width={20} style={{ marginRight: 4 }} />
-          <Text color="error" weight="semibold">
-            Log Out
-          </Text>
-        </Button>
+        <AuthButton variant="logout" scrolling={scrolling} />
       )}
       {children}
     </>

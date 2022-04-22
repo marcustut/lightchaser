@@ -377,10 +377,8 @@ Luk Rin Ven,051106-01-0257,53,false
 See Kay Xin,050715-10-1768,53,false
 Celine Chan Zi Yan,050922-10-1592,54,true
 Ng Mei Mei,000608-10-1206,54,false
-Ying Kuan,EC3727478,54,false
 Tao Wen Jing,EJ2447103,54,false
 Lim Chen Sze,051007-10-2262,54,false
-Trisha Tan Ee Jin,050321-10-0666,54,false
 Chew Shuen Xi,050218-10-0553,54,false
 Thiang Chong Yi,050729-10-1603,54,false
 Wong Kar Shean,050923-10-2140,55,true
@@ -398,11 +396,12 @@ Chong Po Ka,100716-10-1404,56,false
 Siobhan Tan Chay Yao,100327-07-0448,56,false
 Jaden Ng Eugene ,091114-10-1499,56,false
 Loo Jia Xin,050914-10-1998,57,true
-Ho Xin Yuet,050225-10-1044,57,false
 Sarah Diong Yu Jie,050914-14-0380,57,false
 Loi Guang Zheng,051029-14-0737,57,false
 Malcolm Cheah Zhang Ze,050331-10-1507,57,false
 Joshua Kam Cheng En,051201-14-1089,57,false
+Ying Kuan,EC3727478,57,false
+Trisha Tan Ee Jin,050321-10-0666,57,false
 Brian Yong Yu Herng,001205-01-0291,58,true
 Low Kim Chin,010129-01-1800,58,false
 Emeally Khong,040628-13-2158,58,false
@@ -425,8 +424,7 @@ Phoon Tze Chen,071113-14-1503,60,true
 Chan Jin Ming,040310-16-0111,60,false
 Ng Wei Zong,070524-10-1093,60,false
 Chan Kah Lok,050314-14-1259,60,false
-Ling Jun Keat,070315-10-1417,60,false
-Cheok Han Bing,070424-10-2195,60,false
+Look Qin Ling,100719-14-0628,60,false
 Loh Khai Dhong,050314-10-0983,61,true
 Yap Hau Earn ,991202-07-5837,61,false
 Chan Jun Ming,040104-16-0049,61,false
@@ -514,9 +512,8 @@ Chun Yuen Gwan,010625-05-0104,72,false
 Khiow Eugine ,991203-14-6190,72,false
 Edison Gan You Sheng ,980203-10-6929,72,false
 Mak Yuin Bob ,000723-14-0913 ,72,false
-Kee Jee Weng,961016-10-5222,73,true
-Chong Weng Lok,030615-14-0489,73,false
-Yuen Xue Ying ,050413-10-0276,73,false
+Yuen Xue Ying,050413-10-0276,73,true
+Kee Jee Weng,961016-10-5222,73,false
 Angel Chin Zhi Ying ,000811-08-0332,73,false
 Kelly Chan Siew Xuen,040426-14-0876,73,false
 Yee Pei Pei,030106-14-0966,73,false
@@ -528,19 +525,22 @@ Leticia Chang Wei Wei,050328-14-1620,74,false
 Leong Zhi Yiu,040518-10-1700,74,false
 Carrie Leong,060726-14-0016,74,false
 Sii Chuan Jian,041119-14-1363,74,false
-Teh Ming Yew,030228-14-1131,75,true
+Lim Pin Jiun,001027-14-1749,75,true
+Teh Ming Yew,030228-14-1131,75,false
 Lee Yi Ning,050914-14-1228,75,false
-Aw Yong Yong,050112-14-0143,75,false
-Nataniel Edmund Dass ,010312-14-0221,75,false
+Ang Jiun Hang,020410-12-1349,75,false
+Nataniel Edmund Dass,010312-14-0221,75,false
 Low Yong Seng,060930-10-1575,75,false
+Koo Kah Heng,030204-02-1127,75,false
+Tan Kai Wen,020122-10-1669,75,false
+Ng Chen Lam,020320-12-1505,75,false
 Cindy Hew Wei Yi,040903-14-1194,76,true
 Soo Jun Cheng,031020-10-0474,76,false
 Eugene Chan Jin Swen,080212-14-0893,76,false
 Tan Weng Zhen,090125-10-1641,76,false
 Lim Rui Yu,090302-10-2523,76,false
-Braven Teo ,100817-14-0891,76,false
+Braven Teo,100817-14-0891,76,false
 Isaiah Tan Chu Jin,080324-14-0759,76,false
-Ang Jiun Hang,020410-12-1349,76,false
 Ivy Yun,000521-14-0966,77,true
 Man Xian Wen,031126-14-0298,77,false
 Lee Yi Xin,090626-14-1502,77,false
@@ -664,6 +664,7 @@ Tee Jian Meng,021223-14-0303,93,false
 Chew Zhen Liang,041207-10-0983,93,false
 Tee Kian Ern,070806-10-1761,93,false
 Lim Zi Hong ,040616-14-1327,93,false
+How Fu Seng,010417-10-0875,93,false
 Yap Wei Shen,990305-10-5491,94,true
 Lau Jia Le,070228-10-1339,94,false
 Justin Lui Zhi Jian,070105-10-2411,94,false
@@ -707,6 +708,7 @@ Ooi Qi Miin,081205-10-2455,99,false
 Wong Kai Chen,061231-14-0051,99,false
 Nguyen Huu Tri ,N2127362,99,false
 Low Pin Lok,060628-10-1849,99,false
+Issac Kwan Lee Hoong,061001-16-0049,99,false
 Khor Rui Heng,030423-07-0041,100,true
 Wong Jien Thong,031028-14-1190,100,false
 Lau Yen Yee,961211-56-5152,100,false
@@ -734,12 +736,13 @@ Ho Qing Ke,030930-14-1094,102,false
 Yap Thong Sin ,021018-14-1120,102,false
 Mervin Chen Weng Fong,050708-10-1313,102,false
 Wong Mun Fong,950723-14-7356,103,true
-Tai Zhi Ying ,070911-10-1106,103,false
+Tai Zhi Ying,070911-10-1106,103,false
 Pow Keat Soon,031107-14-0209,103,false
-Lum Zhi Qian ,080402-10-2230,103,false
+Lum Zhi Qian,080402-10-2230,103,false
 Lucas Moh Kai Xuan,081201-13-1267,103,false
 Low Wen Jun,080402-10-2097,103,false
-Chan Jian Feng ,081208-10-0375,103,false
+Chan Jian Feng,081208-10-0375,103,false
+Brian Loh Wei San,100402-10-2287,103,false
 Jasmin Yeow Yong Jia,980315-14-5252,104,true
 Ho Suet Yee,021225-14-0462,104,false
 Yew Yoong Xin,010205-14-0840,104,false
@@ -770,7 +773,6 @@ Kelvin Lim An Hong,010530-14-1329,108,true
 Gan Lay Hua,050917-14-0140,108,false
 Ong Li Hong,060901-14-1439,108,false
 Justin Lai Tian Lok,070406-14-0841,108,false
-Low Mei Teng,060526-14-1858,108,false
 Hum Kai Li,070610-14-0590,108,false
 Chan Yung You,000911-14-1577,109,true
 Wong Yui Soon,010911-14-0725,109,false
@@ -778,7 +780,6 @@ Tham Kah Xue,031223-14-0046,109,false
 Hoh Pei See,041031-10-0372,109,false
 Lim Joey,050807-14-0764,109,false
 Hoh Qing Mun,051030-10-0492,109,false
-Lim Xin Yi,050108-14-0968,109,false
 Cheah Kai Xian,040226-14-1065,109,false
 Nai Pui Shan,980825-14-5076,110,true
 Lim Sin Yon,051030-14-0304,110,false
@@ -791,7 +792,6 @@ Yap Jia Qian,040609-10-0121,111,true
 Lim Zu Yi,011013-14-1026,111,false
 Lee Jia Hong,050803-14-0847,111,false
 Law Seong Chun,020326-14-1099,111,false
-Lim Ming Long,061229-14-1549,111,false
 Sun Nick Han ,060603-14-0745,111,false
 Lai Gan Hoong,030320-10-2135,111,false
 Loo Kai Lee,020927-14-0120,112,true
@@ -804,7 +804,6 @@ Soo Winson,060728-14-2357,112,false
 Justin Shuck Chze Wei,010903-14-0485,113,true
 Lim Xin Yee,010522-06-0676,113,false
 Yap Yan Hoon,050826-14-0276,113,false
-Chee Kai Chuan,040212-14-0133,113,false
 Tan Peck Leong,031030-14-1069 ,113,false
 Lee Zi Xuan ,050628-14-1120,113,false
 Queenie Ang Weon Qhi,041106-01-0508,113,false

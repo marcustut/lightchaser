@@ -101,7 +101,6 @@ async function main() {
     const team = await prisma.team.create({
       data: {
         id: groupNum,
-        startingPoint: 'BLACKMARKET',
         leaderId: leader.identityCardNumber,
       },
     });

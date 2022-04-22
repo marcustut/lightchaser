@@ -16,7 +16,7 @@ export const WelcomeModal: FunctionComponent<WelcomeModalProps> = ({ open, onClo
             src="/images/LightChaser_Logo.png"
             alt="title"
           />
-          <Text weight="medium" size="large" css={{ marginTop: '$8' }}>
+          <Text weight="medium" size="large" css={{ marginTop: '$8', marginBottom: '$8' }}>
             To continue logging in, click the button on the bottom right.
           </Text>
         </div>

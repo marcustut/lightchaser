@@ -38,8 +38,10 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
   const requestOTP = useCallback(() => {
     setLoading(true);
 
+    const pn = `+60${phoneNumber}`;
+
     // validate phone number
-    if (!phoneNumber.match(/^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/)) {
+    if (!pn.match(/^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/)) {
       setLoading(false);
       toast('phone number invalid', { type: 'error' });
       return;
@@ -49,10 +51,10 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
     const recaptchaVerifier = generateRecaptcha();
 
     // send otp
-    signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
+    signInWithPhoneNumber(auth, pn, recaptchaVerifier)
       .then((confirmationResult) => {
         setOtpSent(true);
-        toast(`OTP had been sent to ${phoneNumber}`, { type: 'success' });
+        toast(`OTP had been sent to ${pn}`, { type: 'success' });
         setConfirmationResult(confirmationResult);
       })
       .catch((err) => {
@@ -103,15 +105,22 @@ export const AuthModal: FunctionComponent<AuthModalProps> = ({ open, onClose }) 
             alt="title"
           />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body css={{ paddingBottom: '$12' }}>
           <Input
-            clearable
             bordered
             fullWidth
             color="primary"
             size="lg"
+            maxLength={10}
             placeholder="Phone Number..."
-            contentLeft={<p className="text-lg text-console">{'>'}</p>}
+            contentLeftStyling={false}
+            contentLeft={
+              <p className="pl-4 -mr-2 text-lg font-bold whitespace-nowrap text-clip text-console">
+                {'> +60'}
+              </p>
+            }
+            css={{ fontWeight: 'bold' }}
+            inputMode="tel"
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
           {otpSent && (

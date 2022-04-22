@@ -6,7 +6,7 @@ import 'fullpage.js/vendors/scrolloverflow';
 export const HomePage: FunctionComponent = () => {
   return (
     <>
-      <div className="sticky bg-black top-0 border-b-2 border-console flex h-[60px] items-center px-7 justify-between">
+      <div className="sticky bg-black top-0 border-b-2 border-console flex h-[60px] items-center px-7 justify-between z-10">
         <p className="bg-black text-console font-jbmono text-lg font-extrabold tracking-[0.015em]">
           <Typewriter
             typeSpeed={150}
