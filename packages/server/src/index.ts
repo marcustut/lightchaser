@@ -12,6 +12,7 @@ import 'dotenv/config';
 
 import { contactAddInput, contactDeleteInput, contactUpdateInput } from './entity/contact';
 import { emojiInput, emojiOutput } from './entity/emoji';
+import { teamGetInput } from './entity/team';
 import { timerInput } from './entity/timer';
 import { registrationHandler } from './handlers';
 import { Context } from './utils/context';
@@ -202,7 +203,18 @@ export const appRouter = trpc
   })
   .query('contact.all', {
     resolve: async () => await prisma.contact.findMany(),
+  })
+  .query('team.get', {
+    input: teamGetInput,
+    resolve: async ({ input }) => await prisma.team.findUnique({ where: input }),
+  })
+  .query('team.all', {
+    resolve: async () => await prisma.team.findMany(),
   });
+// .mutation('team.update', {
+//   input: teamUpdateInput,
+//   resolve: async ({ input }) => await prisma.team.update(),
+// });
 
 export type AppRouter = typeof appRouter;
 
