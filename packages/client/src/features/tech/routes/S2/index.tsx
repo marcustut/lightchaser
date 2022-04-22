@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { GameInstruction } from '@/components/GameInstruction';
 import { useS2 } from '@/store/useS2';
 import { useTech } from '@/store/useTech';
 import { toast } from '@/utils/toast';
@@ -37,15 +38,13 @@ const items = [
     price: 13.0,
   },
   {
-    name: 'm416',
-    imgSrc:
-      'https://community.cloudflare.steamstatic.com/economy/image/-8zOYQcPJoBYU7uKzjw0RZajjFiA_AojfFoacglhStOfdn6gbpcbDuuPIxAI88oRKiDop4odQy9UTOmvsw_2W9ArPI-2F4HcTWrmNvupvSy_mQ/360fx360f',
+    name: 'vandal',
+    imgSrc: '/images/VGP.png',
     price: 12.0,
   },
   {
-    name: 'revolver',
-    imgSrc:
-      'https://purepng.com/public/uploads/large/purepng.com-classic-western-revolvermetaldangergunmodernshoot-401520458353lqhcu.png',
+    name: 'phantom',
+    imgSrc: '/images/PRC.png',
     price: 65.0,
   },
 ];
@@ -54,9 +53,19 @@ export const S2: FunctionComponent = () => {
   const { amount } = useS2();
   const navigate = useNavigate();
   const { pass } = useTech();
+  const [modalOpen, setModalOpen] = useState<boolean>(true);
 
   return (
     <div className="w-screen h-screen px-5 pb-5 overflow-x-hidden">
+      <GameInstruction
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        text={[
+          '组员们需在众多 QR码 中得到相对应的价格',
+          '并在界面中完整的使用你的钱购买你所找到的价格',
+          'P/S: 若玩家看错或写错价格, 系统将不会警告玩家, 玩家们需自行警惕 😏',
+        ]}
+      />
       <div className="sticky top-0 bg-black py-3 z-[10]">
         <div className="flex items-center justify-between mb-3">
           <p className="font-mono text-xl tracking-wider text-console">Wallet Amount: </p>
@@ -124,7 +133,16 @@ const ItemCard: FunctionComponent<ItemCardProps> = ({ imgSrc, price }) => {
         alt={imgSrc}
       />
       <div className="flex-col mx-auto">
-        <p className="font-mono text-2xl text-console">Price: RM{price.toFixed(2)}</p>
+        <div className="flex items-center justify-center">
+          <p className="font-mono text-xl text-console">Price: </p>
+          <input
+            className="bg-black w-[100px] border-b-2 border-console text-xl font-mono text-console px-2 mb-2"
+            placeholder="..."
+            type="number"
+            maxLength={5}
+          ></input>
+        </div>
+
         <div className="flex justify-around ml-5 rounded-lg border-[2px] p-2 border-console mt-1">
           <button onClick={handleDecrement} className="font-mono text-2xl text-console">
             -
