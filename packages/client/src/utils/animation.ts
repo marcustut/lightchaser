@@ -29,17 +29,20 @@ export const appears = keyframes({
 
 export const fadeToLeft = keyframes({
   '0%': {
-    transform: 'translateX(0px)',
+    transform: 'translateX(0px) scale(1.7)',
     opacity: 1,
   },
+  '25%': {
+    transform: 'translateX(-1000px) scale(1.5)',
+  },
   '50%': {
-    transform: 'translateX(-1000px)',
+    transform: 'translateX(-1750px)',
   },
   '75%': {
-    transform: 'translateX(-1500px)',
+    transform: 'translateX(-2500px)',
   },
   '100%': {
-    transform: 'translateX(-2000px)',
+    transform: 'translateX(-3250px) scale(1)',
     opacity: 0,
   },
 });

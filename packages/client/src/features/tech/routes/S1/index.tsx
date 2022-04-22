@@ -1,8 +1,11 @@
 import { FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { GameInstruction } from '@/components/GameInstruction';
 import { useTech } from '@/store/useTech';
 import { toast } from '@/utils/toast';
+
+const instructions = ['每个组员都会得到一串方程式', '组长需在电话里输入方程式后的答案'];
 
 export const S1: FunctionComponent = () => {
   const [x1, setx1] = useState<string>('');
@@ -11,12 +14,15 @@ export const S1: FunctionComponent = () => {
   const [x4, setx4] = useState<string>('');
   const [x5, setx5] = useState<string>('');
 
+  const [modalOpen, setOpen] = useState<boolean>(true);
+
   const navigate = useNavigate();
   const { pass } = useTech();
 
   return (
-    <div className="flex h-screen justify-center items-center p-7">
-      <div className="grid grid-cols-1 gap-2">
+    <div className="flex h-screen justify-center items-center p-3">
+      <GameInstruction text={instructions} open={modalOpen} onClose={() => setOpen(false)} />
+      <div className="flex flex-col gap-2 justify-center items-center w-full h-full">
         <button
           onClick={() => {
             navigate('./Calculator');
@@ -64,7 +70,10 @@ export const S1: FunctionComponent = () => {
         >
           Submit
         </button>
-        <p className="text-gray-600 font-lato w-full text-center italic">YW = 2523</p>
+        {/* <p className="text-gray-600 font-lato w-full text-center italic mt-2">Hint</p> */}
+        <p className="text-gray-600 font-lato w-full text-center italic mt-2">
+          It&apos;s not just about numbers, maybe letters too?
+        </p>
       </div>
     </div>
   );

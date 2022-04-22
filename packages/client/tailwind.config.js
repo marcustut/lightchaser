@@ -6,6 +6,7 @@ module.exports = {
         lato: ['Lato', 'sans-serif'],
         montserrrat: ['Montserrat', 'sans-serif'],
         jbmono: ["'JetBrains Mono'", 'ui-monospace'],
+        chi: ['REEJI-PinboGB-Flash', 'sans-serif'],
       },
       colors: {
         console: '#0dcb21',

@@ -31,8 +31,6 @@ const publicRoutes = [
       { path: '/timer', element: <Timer /> },
       { path: '/help', element: <Help /> },
       { path: '/admin/*', element: <AdminRoutes /> },
-      // { path: '/onboard', element: <Onboard /> },
-      // { path: '/live', element: <Live /> },
       { path: '/interactive/*', element: <InteractiveRoutes /> },
       { path: '/tech/*', element: <TechgameRoutes /> },
       { path: '*', element: <Navigate to="/" /> },

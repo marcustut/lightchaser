@@ -3,6 +3,8 @@
 import { FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { GameInstruction } from '@/components/GameInstruction';
+
 const equations: Record<number, string> = {
   1: '3+5*7-19+100/25-4*1=',
   2: '185*3/5-11+1*45-35*2=',
@@ -11,11 +13,15 @@ const equations: Record<number, string> = {
   5: '57/3+12*5*8+1-14*20-4*5*5*2-100/20=',
 };
 
+const instructions = ['每个组员都会得到一串方程式', '组长需在电话里输入方程式后的答案'];
+
 export const S1Calculator: FunctionComponent = () => {
   const [seq, setSeq] = useState(1);
+  const [open, setIsOpen] = useState<boolean>(true);
   const navigate = useNavigate();
   return (
     <div className="w-screen h-screen px-3 pt-7">
+      <GameInstruction open={open} text={instructions} onClose={() => setIsOpen(false)} />
       <p
         onClick={() => setSeq(seq !== 5 ? seq + 1 : 1)}
         className="font-lato font-bold text-3xl text-center w-full mb-10"

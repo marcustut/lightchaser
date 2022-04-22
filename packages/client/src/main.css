@@ -16,6 +16,11 @@
 }
 
 @font-face {
+  font-family: 'REEJI-PinboGB-Flash';
+  src: url('/fonts/RuiZiAoYunJingShenPinBoJianMianFei-Shan(REEJI-PinboGB-Flash)-2.ttf');
+}
+
+@font-face {
   font-family: 'JetBrains Mono';
   src: url('/fonts/JetBrainsMono-Bold.woff2') format("woff2");
   src: url('/fonts/JetBrainsMono-Regular.woff2') format("woff2");

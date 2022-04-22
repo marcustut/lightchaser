@@ -8,29 +8,32 @@ import { toast } from '@/utils/toast';
 const items = [
   {
     name: 'ak',
-    imgSrc: 'https://qph.cf2.quoracdn.net/main-qimg-a91f33388a0973cbf30589bd42dfe0f8',
+    imgSrc:
+      'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_ak_neon_rider_light_large.9209192b514c4ec98146b4747dec8ce407a977c8.png',
     price: 39.0,
   },
   {
     name: 'm4a4',
     imgSrc:
-      'https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-6kejhh3szLeC9B-dWilo-KhfPLILLdgG5D18l4jeHVyoD0mlOx5UQ9YDv7IoacdABvZl-CqQO2wOzr1JTvv5Wan3YxuiQm7CmJmhG100lSLrs4MXikTMk/360fx360f',
+      'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_m4a1_cu_m4a4_love_light_large.5f7f6a3085aedc1a878dd10881144e7898a2db3d.png',
     price: 27.0,
   },
   {
-    name: 'hegrenade',
+    name: 'p90',
     imgSrc:
-      'https://preview.redd.it/9q7buaor6f621.png?auto=webp&s=1ac1cdde854851ae586b98cc2bbf01034f8981e2',
+      'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_p90_cu_dragon_p90_bravo_light_large.200ef513ae29ae7651ad3f31e68b5b186279572f.png',
     price: 13.0,
   },
   {
-    name: 'awm',
-    imgSrc: 'https://lite.pubg.com/guide/img/sr_awm.a543c81f.png',
+    name: 'awp',
+    imgSrc:
+      'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_awp_cu_medieval_dragon_awp_light_large.cb3b8168e59e96fd33efa9578206a2aaed036fc0.png',
     price: 38.0,
   },
   {
-    name: 'scarL',
-    imgSrc: 'https://i.pinimg.com/originals/0d/ce/dc/0dcedc02f5ce44c1440e4139eb7928cf.png',
+    name: 'usp',
+    imgSrc:
+      'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_usp_silencer_cu_usp_kill_confirmed_light_large.a3a7b8f19c9fb931b18c1edd7dd21d44e2c3c2e0.png',
     price: 13.0,
   },
   {
@@ -116,7 +119,7 @@ const ItemCard: FunctionComponent<ItemCardProps> = ({ imgSrc, price }) => {
   return (
     <div className="flex w-full items-center rounded-lg border-2 border-console p-2 relative mb-2">
       <img
-        className="rounded-lg border-[2px] border-console w-[100px] h-[100px] object-contain"
+        className="rounded-lg border-[2px] border-console w-[100px] h-[100px] object-contain p-2"
         src={imgSrc}
         alt={imgSrc}
       />
