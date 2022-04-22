@@ -7,7 +7,7 @@ import { InteractiveReaction } from './Reaction';
 export const InteractiveRoutes = () => {
   return (
     <Routes>
-      <Route path="" element={<InteractiveReaction />} />
+      <Route path="/" element={<InteractiveReaction />} />
       <Route path="/L5" element={<L5Screen />} />
       <Route path="/interaction" element={<Interaction />} />
       <Route path="*" element={<Navigate to={'.'} />} />
