@@ -45,7 +45,7 @@ export const Help: FunctionComponent = () => {
   const contacts = trpc.useQuery(['contact.all']);
 
   return (
-    <AppLayout css={{ py: '$4' }}>
+    <AppLayout css={{ height: 'calc(100vh - 84px)', py: '$4' }}>
       <Text h1 color="primary" weight="bold" size="xx-large">
         Emergency Contacts
       </Text>

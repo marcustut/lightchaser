@@ -14,6 +14,8 @@ interface AuthButtonProps {
   onClick?: () => void;
 }
 
+const dontShow = ['/interactive/l5'];
+
 const AuthButton: FunctionComponent<AuthButtonProps> = ({ scrolling, onClick, variant }) => {
   const auth = useAuth();
 
@@ -85,6 +87,8 @@ export const AuthWrapper: FunctionComponent = ({ children }) => {
   if (status === 'error')
     return <ErrorPage description="An error occured in loading Firebase Auth" />;
   if (!children) throw new Error('children must be provided');
+
+  if (dontShow.includes(window.location.pathname.toLowerCase())) return <>{children}</>;
 
   return (
     <>

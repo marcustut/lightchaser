@@ -8,7 +8,6 @@ import { toast, ToastPosition, TypeOptions } from 'react-toastify';
 import { FlyingEmojis } from '@/components';
 import { trpc } from '@/lib/trpc';
 
-const fakeUsers = ['Adam', 'Eve', 'Cain', 'Abel'];
 const toastTypes = ['default', 'error', 'info', 'warning', 'success'];
 
 export const L5Screen: FunctionComponent = () => {
@@ -21,7 +20,20 @@ export const L5Screen: FunctionComponent = () => {
     onError(err) {
       console.error(err);
     },
-    enabled: true,
+  });
+  trpc.useSubscription(['presence.realtime'], {
+    onNext(payload) {
+      toast(`${payload} has joined the chat!`, {
+        theme: 'colored',
+        pauseOnFocusLoss: false,
+        position: toastOrigins[randomNumber(0, 1)] as ToastPosition,
+        type: toastTypes[randomNumber(0, 4)] as TypeOptions,
+        icon: '🚀',
+      });
+    },
+    onError(err) {
+      console.error(err);
+    },
   });
 
   const toastOrigins = ['bottom-left', 'top-left'];
@@ -33,20 +45,8 @@ export const L5Screen: FunctionComponent = () => {
   return (
     <>
       <FlyingEmojis emoji={payload} emojis={payloads} setEmojis={setPayloads} />
-      <div
-        className="flex w-full h-screen"
-        onClick={() =>
-          toast(`${fakeUsers[randomNumber(0, 3)]}  has joined the chat!`, {
-            theme: 'colored',
-            pauseOnFocusLoss: false,
-            position: toastOrigins[randomNumber(0, 1)] as ToastPosition,
-            type: toastTypes[randomNumber(0, 4)] as TypeOptions,
-
-            icon: '🚀',
-          })
-        }
-      >
-        <div className="w-full relative h-screen flex flex-col items-center justify-center bg-[url('/images/grid.png')] bg-cover text-console  border-2 border-console p-10 rounded-3xl relative">
+      <div className="flex w-full h-screen">
+        <div className="w-full h-screen flex flex-col items-center justify-center bg-[url('/images/grid.png')] bg-cover text-console  border-2 border-console p-10 rounded-3xl relative">
           {/* <p className="text-[6rem] font-mono mb-2">Welcome</p> */}
           <img
             src="/images/LightChaser_LogoGreen.png"
