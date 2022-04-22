@@ -8,7 +8,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider, useFirebaseApp } from 'reactfire';
 
-import { PWAReloadPrompt } from '@/components';
+import { PWAReloadPrompt, LoadingPage } from '@/components';
+import { AuthWrapper } from '@/features/auth';
 import { trpc } from '@/lib/trpc';
 import { theme } from '@/utils/theme';
 
@@ -37,12 +38,14 @@ export const AppProvider: FunctionComponent = ({ children }) => {
   }, [auth]);
 
   return (
-    <Suspense fallback={<div>TODO fallback</div>}>
+    <Suspense fallback={<LoadingPage />}>
       <AuthProvider sdk={auth}>
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
             <NextUIProvider theme={theme}>
-              <BrowserRouter>{children}</BrowserRouter>
+              <AuthWrapper>
+                <BrowserRouter>{children}</BrowserRouter>
+              </AuthWrapper>
               <ToastContainer position="top-center" theme="dark" />
               <PWAReloadPrompt />
             </NextUIProvider>
