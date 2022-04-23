@@ -21,9 +21,16 @@ const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = ({ skipStory = 
       {!skipStory && (
         <div className="section" style={{ display: 'flex' }}>
           <div className="flex flex-col mt-2 p-5">
-            <div className="flex flex-col  mb-5">
-              <p className="font-chi text-white text-3xl ">追光者</p>
-              <p className="font-bmonument text-white text-2xl tracking-wider">Light Chaser</p>
+            <div className="flex flex-col mb-5">
+              <p className="font-chi text-white text-3xl" style={{ margin: 0 }}>
+                追光者
+              </p>
+              <p
+                className="font-bmonument text-white text-2xl tracking-wider"
+                style={{ margin: 0 }}
+              >
+                Light Chaser
+              </p>
             </div>
             <p className="font-bold whitespace-pre-wrap text-console text-lg">
               <Typewriter
@@ -41,9 +48,13 @@ const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = ({ skipStory = 
       )}
       <div className="section" style={{ display: 'flex' }}>
         <div className="flex flex-col mt-2 p-5">
-          <div className="flex flex-col  mb-5">
-            <p className="font-chi text-white text-3xl ">斗技场</p>
-            <p className="font-bmonument text-white text-2xl tracking-wider">Chaos Arena</p>
+          <div className="flex flex-col mb-5">
+            <p className="font-chi text-white text-3xl " style={{ margin: 0 }}>
+              斗技场
+            </p>
+            <p className="font-bmonument text-white text-2xl tracking-wider" style={{ margin: 0 }}>
+              Chaos Arena
+            </p>
           </div>
           <p className="font-bold whitespace-pre-wrap  text-console text-lg mb-5 leading-tight">
             <Typewriter
@@ -71,8 +82,12 @@ const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = ({ skipStory = 
       <div className="section" style={{ display: 'flex' }}>
         <div className="flex flex-col mt-2 p-5">
           <div className="flex flex-col  mb-5">
-            <p className="font-chi text-white text-3xl ">黑市</p>
-            <p className="font-bmonument text-white text-2xl tracking-wider">Black Market</p>
+            <p className="font-chi text-white text-3xl " style={{ margin: 0 }}>
+              黑市
+            </p>
+            <p className="font-bmonument text-white text-2xl tracking-wider" style={{ margin: 0 }}>
+              Black Market
+            </p>
           </div>
           <p className="font-bold whitespace-pre-wrap text-console text-lg mb-5 leading-tight">
             <Typewriter
@@ -100,8 +115,12 @@ const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = ({ skipStory = 
       <div className="section" style={{ display: 'flex' }}>
         <div className="flex flex-col mt-2 p-5">
           <div className="flex flex-col  mb-5">
-            <p className="font-chi text-white text-3xl ">遗忘领域</p>
-            <p className="font-bmonument text-white text-2xl tracking-wider">Lost Zone</p>
+            <p className="font-chi text-white text-3xl " style={{ margin: 0 }}>
+              遗忘领域
+            </p>
+            <p className="font-bmonument text-white text-2xl tracking-wider" style={{ margin: 0 }}>
+              Lost Zone
+            </p>
           </div>
           <p className="font-bold whitespace-pre-wrap text-console text-lg mb-5 leading-tight">
             <Typewriter
@@ -129,8 +148,12 @@ const FullpageWrapper: FunctionComponent<FullpageWrapperProps> = ({ skipStory = 
       <div className="section" style={{ display: 'flex' }}>
         <div className="flex flex-col mt-2 p-5">
           <div className="flex flex-col  mb-5">
-            <p className="font-chi text-white text-3xl ">无限城市</p>
-            <p className="font-bmonument text-white text-2xl tracking-wider">Infinity City</p>
+            <p className="font-chi text-white text-3xl " style={{ margin: 0 }}>
+              无限城市
+            </p>
+            <p className="font-bmonument text-white text-2xl tracking-wider" style={{ margin: 0 }}>
+              Infinity City
+            </p>
           </div>
           <p className="font-bold whitespace-pre-wrap text-console text-lg mb-5 leading-tight">
             <Typewriter
