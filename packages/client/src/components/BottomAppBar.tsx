@@ -83,7 +83,7 @@ export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({
       justify="space-evenly"
       css={{
         backgroundColor: '$background',
-        position: 'fixed',
+        position: 'sticky',
         paddingTop: '$6',
         paddingBottom: '$6',
         bottom: 0,
