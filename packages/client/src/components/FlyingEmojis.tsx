@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import { styled } from '@nextui-org/react';
 import {
   FunctionComponent,
@@ -41,6 +42,28 @@ const FlyingEmoji: FunctionComponent<FlyingEmojiProps> = ({
     return () => clearTimeout(timer);
   }, [onAnimationEnd]);
 
+  const randomEasterEgg = () => {
+    const easterEggs = [
+      'africanSmile.png',
+      'andyLau.png',
+      'boomHead.png',
+      'love.png',
+      'loveDiff.png',
+      'ohNo.png',
+      'mlgCat.mp4',
+    ];
+    const index = parseInt(getRandomNumber(0, 6).toFixed(0));
+    const src = easterEggs[index];
+    console.log(index);
+    if (src == 'mlgCat.mp4') {
+      return <video src="/easterEggs/mlgCat.mp4" className="w-[300px] h-[300px]" autoPlay loop />;
+    } else {
+      return (
+        <img src={`/easterEggs/${src}`} alt={src} className="object-cover w-[300px] h-[300px]" />
+      );
+    }
+  };
+
   return (
     <Div
       css={{
@@ -55,7 +78,7 @@ const FlyingEmoji: FunctionComponent<FlyingEmojiProps> = ({
       onAnimationEnd={() => setOpacity(0)}
     >
       <div style={{ transform: `rotate(${rotate}deg)` }}>
-        {emoji === '🔥🔥🔥' ? 'EASTER EGG!' : emoji}
+        {emoji === '🔥🔥🔥' ? randomEasterEgg() : emoji}
       </div>
     </Div>
   );
