@@ -53,7 +53,7 @@ export const S1Calculator: FunctionComponent = () => {
     setSeq(
       team.data.User.filter((u) => u.identityCardNumber !== team.data?.leaderId).findIndex(
         (u) => u.identityCardNumber === user.identityCardNumber
-      ) + 1
+      ) + 5
     );
   }, [navigate, team, user]);
 
@@ -66,11 +66,11 @@ export const S1Calculator: FunctionComponent = () => {
         // onClick={() => setSeq(seq !== 5 ? seq + 1 : 1)}
         className="font-lato font-bold text-3xl text-center w-full mb-10"
       >
-        {seq % 5}
+        {seq % 6}
       </p>
       <div className="flex justify-center">
         <div className="grid grid-cols-5 gap-1 mb-4">
-          {equations[seq % 5].split('').map((c, i) => (
+          {equations[seq % 6].split('').map((c, i) => (
             <div
               key={i}
               className="w-[60px] h-[70px] flex justify-center items-center rounded-xl border-2 border-console"

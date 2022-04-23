@@ -48,27 +48,27 @@ export const S1: FunctionComponent = () => {
         <input
           onChange={(event) => setx1(event.target.value)}
           maxLength={2}
-          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center w-full bg-black"
+          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center bg-black"
         ></input>
         <input
           onChange={(event) => setx2(event.target.value)}
           maxLength={2}
-          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center w-full bg-black"
+          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center bg-black"
         ></input>
         <input
           onChange={(event) => setx3(event.target.value)}
           maxLength={2}
-          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center w-full bg-black"
+          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center bg-black"
         ></input>
         <input
           onChange={(event) => setx4(event.target.value)}
           maxLength={2}
-          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center w-full bg-black"
+          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center bg-black"
         ></input>
         <input
           onChange={(event) => setx5(event.target.value)}
           maxLength={2}
-          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center w-full bg-black"
+          className="rounded-xl border-[6px] border-console w-[100px] h-[100px] font-lato text-3xl text-center bg-black"
         ></input>
         <button
           onClick={async () => {
