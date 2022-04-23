@@ -40,7 +40,7 @@ const protectedRoutes = (user: User) => [
     path: '/',
     element: <AppWithUser firebaseUser={user} />,
     children: [
-      { path: '/', element: <Navigate to="interactive" /> },
+      { path: '/', element: <Navigate to="/tech" /> },
       { path: '/map', element: <Map /> },
       { path: '/timer', element: <Timer /> },
       { path: '/help', element: <Help /> },
