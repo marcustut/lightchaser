@@ -1,9 +1,14 @@
-import { FunctionComponent, useState } from 'react';
+import { Icon } from '@iconify/react';
+import { Button } from '@nextui-org/react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { LoadingPage } from '@/components';
 import { GameInstruction } from '@/components/GameInstruction';
+import { trpc } from '@/lib/trpc';
 import { useS2 } from '@/store/useS2';
-import { useTech } from '@/store/useTech';
+import { useUser } from '@/store/useUser';
+import { fade } from '@/utils/animation';
 import { toast } from '@/utils/toast';
 
 const items = [
@@ -52,8 +57,24 @@ const items = [
 export const S2: FunctionComponent = () => {
   const { amount } = useS2();
   const navigate = useNavigate();
-  const { pass } = useTech();
   const [modalOpen, setModalOpen] = useState<boolean>(true);
+  const { user } = useUser();
+  const team = trpc.useQuery(['team.get', { id: user?.teamId }]);
+  const mutation = trpc.useMutation(['team.update']);
+
+  useEffect(() => {
+    if (team.isFetching || !team.data || !user) return;
+    if (team.data.tgTwoCompleted) {
+      navigate('/tech', { replace: true });
+      return;
+    }
+    if (team.data.leaderId !== user.identityCardNumber) {
+      navigate('/tech/S2/qr', { replace: true });
+      return;
+    }
+  }, [navigate, team, user]);
+
+  if (team.isFetching || !team.data) return <LoadingPage />;
 
   return (
     <div className="w-screen h-screen px-5 pb-5 overflow-x-hidden">
@@ -76,14 +97,28 @@ export const S2: FunctionComponent = () => {
         <div className="flex justify-between">
           <p className="font-mono text-3xl tracking-wider text-console">Items</p>
           <button
-            onClick={() => {
-              console.log(amount);
+            onClick={async () => {
+              if (!team.data) {
+                console.error('bodoh lar, got error');
+                return;
+              }
+
               if (amount !== 0) {
                 toast(false);
               } else {
                 toast(true);
-                navigate('/tech');
-                pass(2);
+                try {
+                  await mutation.mutateAsync({
+                    id: team.data.id,
+                    newPoints: team.data.points + 10,
+                    newTgTwoCompleted: true,
+                  });
+                } catch (e) {
+                  console.error(e);
+                  console.error('bodoh lar, got error');
+                  return;
+                }
+                navigate('/tech', { replace: true });
               }
             }}
             className="text-white bg-console rounded-xl w-[150px] py-1"
@@ -97,6 +132,25 @@ export const S2: FunctionComponent = () => {
           <ItemCard key={key} price={i.price} imgSrc={i.imgSrc} amount={amount} />
         ))}
       </div>
+      <Button
+        auto
+        flat
+        color="success"
+        css={{
+          position: 'fixed',
+          bottom: '$8',
+          right: '$8',
+          animation: `${fade(
+            { x: 0, y: 50, opacity: 0 },
+            { x: 0, y: 0, opacity: 1 }
+          )} 0.5s ease forwards`,
+        }}
+        onClick={() => navigate('/tech')}
+      >
+        <Icon icon="heroicons-outline:chevron-left" width="16" style={{ marginRight: '12px' }} />{' '}
+        Back to Dashboard
+      </Button>
+      )
     </div>
   );
 };

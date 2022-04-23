@@ -228,7 +228,14 @@ export const appRouter = trpc
   })
   .query('team.get', {
     input: teamGetInput,
-    resolve: async ({ input }) => await prisma.team.findUnique({ where: input }),
+    resolve: async ({ input }) => {
+      if (input.id === null || input.leaderId === null)
+        throw new trpc.TRPCError({ code: 'BAD_REQUEST', message: 'input must not be null' });
+      return await prisma.team.findUnique({
+        where: { id: input.id, leaderId: input.leaderId },
+        include: { User: { orderBy: { identityCardNumber: 'asc' } } },
+      });
+    },
   })
   .query('team.all', {
     resolve: async () => await prisma.team.findMany(),
@@ -262,7 +269,7 @@ export const appRouter = trpc
           tgThreeCompleted: input.newTgThreeCompleted,
         },
       });
-      ee.emit('gametimer.update', await prisma.team.findMany());
+      ee.emit('team.update', await prisma.team.findMany());
     },
   })
   .subscription('presence.realtime', {

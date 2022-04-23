@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const teamGetInput = z.object({
-  id: z.number().nonnegative().optional(),
-  leaderId: z.string().nonempty().optional(),
+  id: z.number().nonnegative().optional().nullable(),
+  leaderId: z.string().nonempty().optional().nullable(),
 });
 
 export const teamUpdateInput = z.object({

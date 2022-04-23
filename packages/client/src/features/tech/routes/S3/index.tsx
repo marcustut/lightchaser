@@ -1,10 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { FunctionComponent, useState } from 'react';
+import { Icon } from '@iconify/react';
+import { Button } from '@nextui-org/react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { LoadingPage } from '@/components';
 import { GameInstruction } from '@/components/GameInstruction';
 import { getCoords } from '@/lib/location';
-import { useTech } from '@/store/useTech';
+import { trpc } from '@/lib/trpc';
+import { useUser } from '@/store/useUser';
+import { fade } from '@/utils/animation';
 import { toast } from '@/utils/toast';
 
 const ans: Record<string, { lat: number; lng: number; name: string; images: string[] }> = {
@@ -52,24 +56,50 @@ export const S3: FunctionComponent = () => {
   const [lat, setLat] = useState<string>('');
   const [lng, setLng] = useState<string>('');
   const [data, setData] = useState<Record<string, any>>();
-  const [set, setSet] = useState<number>(1);
-  const [player, setPlayer] = useState<number>(0);
-
+  const [player, setPlayer] = useState<number>();
   const [modal, setModal] = useState<boolean>(true);
+  const { user } = useUser();
+  const team = trpc.useQuery(['team.get', { id: user?.teamId }]);
+  const mutation = trpc.useMutation(['team.update']);
+  trpc.useSubscription(['team.realtime'], {
+    onNext(teams) {
+      if (!user) return;
+      const team = teams.find((t) => t.id === user.teamId);
+      if (!team) return;
+      if (team.tgThreeCompleted) navigate('/tech', { replace: true });
+    },
+    onError(err) {
+      console.error(err);
+    },
+  });
 
   const navigate = useNavigate();
-  const { pass } = useTech();
 
   const inBetweenTwoNumber = (target: number, ranges: [number, number]) =>
     target >= ranges[0] && target <= ranges[1];
+
+  useEffect(() => {
+    if (team.isFetching || !team.data || !user) return;
+    if (user.identityCardNumber === team.data.leaderId) setPlayer(0);
+    else
+      setPlayer(
+        team.data.User.filter((u) => u.identityCardNumber !== team.data?.leaderId).findIndex(
+          (u) => u.identityCardNumber === user.identityCardNumber
+        ) + 1
+      );
+  }, [navigate, team, user]);
+
+  if (team.isFetching || !team.data || player === undefined) return <LoadingPage />;
 
   return player !== 0 ? (
     <div className="flex flex-col justify-center items-center h-screen w-screen p-7">
       <GameInstruction text={instructions} onClose={() => setModal(false)} open={modal} />
       <img
-        alt={ans[set].images[0]}
+        alt={ans[team.data.set].images[0]}
         className="object-cover h-1/2 rounded-xl mb-5"
-        src={`https://firebasestorage.googleapis.com/v0/b/light-chaser.appspot.com/o/${ans[set].images[player]}.jpg?alt=media&token=278190b7-ba13-4452-a365-4d503a676db0`}
+        src={`https://firebasestorage.googleapis.com/v0/b/light-chaser.appspot.com/o/${
+          ans[team.data.set].images[player & 9]
+        }.jpg?alt=media&token=278190b7-ba13-4452-a365-4d503a676db0`}
       />
       <input
         placeholder="Place Name..."
@@ -93,6 +123,24 @@ export const S3: FunctionComponent = () => {
           </p>
         </div>
       ) : null}
+      <Button
+        auto
+        flat
+        color="success"
+        css={{
+          position: 'fixed',
+          bottom: '$8',
+          right: '$8',
+          animation: `${fade(
+            { x: 0, y: 50, opacity: 0 },
+            { x: 0, y: 0, opacity: 1 }
+          )} 0.5s ease forwards`,
+        }}
+        onClick={() => navigate('/tech')}
+      >
+        <Icon icon="heroicons-outline:chevron-left" width="16" style={{ marginRight: '12px' }} />{' '}
+        Back to Dashboard
+      </Button>
     </div>
   ) : (
     <div className="flex flex-col justify-center items-center h-screen w-screen p-7">
@@ -108,13 +156,29 @@ export const S3: FunctionComponent = () => {
         onChange={(e) => setLng(e.target.value)}
       />
       <button
-        onClick={() => {
+        onClick={async () => {
+          if (!team.data) return;
           if (
-            inBetweenTwoNumber(parseFloat(lat), [ans[set].lat - 0.5, ans[set].lat + 0.5]) &&
-            inBetweenTwoNumber(parseFloat(lng), [ans[set].lng - 0.5, ans[set].lng + 0.5])
+            inBetweenTwoNumber(parseFloat(lat), [
+              ans[team.data.set].lat - 0.5,
+              ans[team.data.set].lat + 0.5,
+            ]) &&
+            inBetweenTwoNumber(parseFloat(lng), [
+              ans[team.data.set].lng - 0.5,
+              ans[team.data.set].lng + 0.5,
+            ])
           ) {
             toast(true);
-            pass(3);
+            try {
+              await mutation.mutateAsync({
+                id: team.data.id,
+                newPoints: team.data.points + 10,
+                newTgThreeCompleted: true,
+              });
+            } catch (e) {
+              console.error(e);
+              return;
+            }
             navigate('/tech');
           } else {
             toast(false);
@@ -124,6 +188,24 @@ export const S3: FunctionComponent = () => {
       >
         Submit
       </button>
+      <Button
+        auto
+        flat
+        color="success"
+        css={{
+          position: 'fixed',
+          bottom: '$8',
+          right: '$8',
+          animation: `${fade(
+            { x: 0, y: 50, opacity: 0 },
+            { x: 0, y: 0, opacity: 1 }
+          )} 0.5s ease forwards`,
+        }}
+        onClick={() => navigate('/tech')}
+      >
+        <Icon icon="heroicons-outline:chevron-left" width="16" style={{ marginRight: '12px' }} />{' '}
+        Back to Dashboard
+      </Button>
     </div>
   );
 };

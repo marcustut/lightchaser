@@ -21,11 +21,14 @@ export const GameInstruction: FunctionComponent<GameInstructionProps> = ({
         <div className="flex flex-col justify-center items-center mb-10">
           {text?.map((t) =>
             t.startsWith('P/S', 0) ? (
-              <p className="text-disabled text-center font-chi mb-1" key={t}>
+              <p className="text-disabled text-center font-chi mb-1 whitespace-pre-wrap" key={t}>
                 {t}
               </p>
             ) : (
-              <p className="text-white text-center font-chi text-xl mb-4" key={t}>
+              <p
+                className="text-white text-center font-chi text-xl mb-4 whitespace-pre-wrap"
+                key={t}
+              >
                 {t}
               </p>
             )

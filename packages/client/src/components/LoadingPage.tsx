@@ -1,9 +1,19 @@
-import { Container, Loading } from '@nextui-org/react';
+import { Container, CSS, Loading } from '@nextui-org/react';
 import { FunctionComponent } from 'react';
 
-export const LoadingPage: FunctionComponent = () => {
+interface LoadingPageProps {
+  css?: CSS;
+}
+
+export const LoadingPage: FunctionComponent<LoadingPageProps> = ({ css }) => {
   return (
-    <Container css={{ height: '100vh' }} fluid display="flex" justify="center" alignItems="center">
+    <Container
+      css={{ height: '100vh', ...css }}
+      fluid
+      display="flex"
+      justify="center"
+      alignItems="center"
+    >
       <Loading />
     </Container>
   );
