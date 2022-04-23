@@ -198,6 +198,7 @@ export const Timer: FunctionComponent = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}
+      bottomAppBarProps={{ css: { position: 'fixed' } }}
     >
       {renderLEDTimer()}
     </AppLayout>

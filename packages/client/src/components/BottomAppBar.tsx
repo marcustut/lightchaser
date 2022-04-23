@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Button, Grid, Text } from '@nextui-org/react';
+import { Button, Grid, Text, CSS } from '@nextui-org/react';
 import { FunctionComponent, CSSProperties, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -52,6 +52,7 @@ const AppBarButton: FunctionComponent<AppBarButtonProps> = ({
 };
 interface BottomAppBarProps {
   options?: AppBarButtonProps[];
+  css?: CSS;
 }
 
 export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({
@@ -77,6 +78,7 @@ export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({
       text: 'Help',
     },
   ],
+  css,
 }) => {
   return (
     <Grid.Container
@@ -90,6 +92,7 @@ export const BottomAppBar: FunctionComponent<BottomAppBarProps> = ({
         left: 0,
         right: 0,
         zIndex: 1,
+        ...css,
       }}
     >
       {options.map((o, idx) => (
