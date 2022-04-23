@@ -9,6 +9,7 @@ import { LoadingPage } from '@/components';
 import { GameInstruction } from '@/components/GameInstruction';
 import { trpc } from '@/lib/trpc';
 import { useUser } from '@/store/useUser';
+import { fade } from '@/utils/animation';
 
 const equations: Record<number, string> = {
   1: '3+5*7-19+100/25-4*1=',
