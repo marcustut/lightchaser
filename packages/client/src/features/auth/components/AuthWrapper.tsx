@@ -26,10 +26,10 @@ const AuthButton: FunctionComponent<AuthButtonProps> = ({ scrolling, onClick, va
       color={variant === 'login' ? 'success' : 'error'}
       css={{
         position: 'fixed',
-        top: variant === 'logout' ? '$8' : 'unset',
-        bottom: variant === 'login' ? '$8' : 'unset',
-        right: '$8',
-        zIndex: '$1',
+        top: variant === 'logout' ? '$10' : 'unset',
+        bottom: variant === 'login' ? '$10' : 'unset',
+        right: '$10',
+        zIndex: '$3',
         animation: `${
           !scrolling
             ? fade({ x: 0, y: 50, opacity: 0 }, { x: 0, y: 0, opacity: 1 })

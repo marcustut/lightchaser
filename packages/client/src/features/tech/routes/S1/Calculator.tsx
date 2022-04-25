@@ -53,7 +53,7 @@ export const S1Calculator: FunctionComponent = () => {
     setSeq(
       team.data.User.filter((u) => u.identityCardNumber !== team.data?.leaderId).findIndex(
         (u) => u.identityCardNumber === user.identityCardNumber
-      ) + 1
+      ) + 2
     );
   }, [navigate, team, user]);
 

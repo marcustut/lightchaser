@@ -12,9 +12,9 @@ datasource db {
 }
 
 model User {
-  identityCardNumber String    @id
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  identityCardNumber String     @id
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
   name               String
   birthYear          Int
   gender             Gender
@@ -23,9 +23,11 @@ model User {
   cg                 String
   status             Status
   shirtSize          ShirtSize
-  Team               Team?     @relation(fields: [teamId], references: [id])
+  Team               Team?      @relation(fields: [teamId], references: [id])
   teamId             Int?
-  LeadingTeam        Team?     @relation("Leader")
+  LeadingTeam        Team?      @relation("Leader")
+  Post               Post[]
+  PostLike           PostLike[]
 }
 
 model Team {
@@ -40,6 +42,25 @@ model Team {
   Leader           User     @relation("Leader", fields: [leaderId], references: [identityCardNumber])
   leaderId         String   @unique
   User             User[]
+}
+
+model Post {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  content   String
+  Onwer     User       @relation(fields: [ownerId], references: [identityCardNumber])
+  ownerId   String
+  PostLike  PostLike[]
+}
+
+model PostLike {
+  postId Int
+  userId String
+  Post   Post   @relation(fields: [postId], references: [id])
+  User   User   @relation(fields: [userId], references: [identityCardNumber])
+
+  @@id([postId, userId])
 }
 
 model Timer {

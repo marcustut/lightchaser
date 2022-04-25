@@ -291,6 +291,78 @@ export const appRouter = trpc
     resolve: async ({ input }) => {
       if (input !== '') ee.emit('presence.add', input);
     },
+  })
+  .subscription('post.realtime', {
+    resolve: async () => {
+      const posts = await prisma.post.findMany({ include: { Onwer: true, PostLike: true } });
+      return new trpc.Subscription<typeof posts>((emit) => {
+        // broadcast posts
+        const broadcast = (data: typeof posts) => emit.data(data);
+
+        // broadcast for first time user
+        broadcast(posts);
+
+        // subscribe to add post event
+        ee.on('post.add', broadcast);
+        ee.on('post.like', broadcast);
+        ee.on('post.unlike', broadcast);
+
+        // unsubscribe when user disconnects
+        return () => {
+          ee.off('post.add', broadcast);
+          ee.off('post.like', broadcast);
+          ee.off('post.unlike', broadcast);
+        };
+      });
+    },
+  })
+  .query('post.all', {
+    resolve: async () => await prisma.post.findMany({ include: { Onwer: true, PostLike: true } }),
+  })
+  .mutation('post.add', {
+    input: z.object({
+      content: z.string().nonempty(),
+      identityCardNumber: z.string().nonempty(),
+    }),
+    resolve: async ({ input }) => {
+      await prisma.post.create({
+        data: { content: input.content, ownerId: input.identityCardNumber },
+      });
+      ee.emit(
+        'post.realtime',
+        await prisma.post.findMany({ include: { Onwer: true, PostLike: true } })
+      );
+    },
+  })
+  .mutation('post.like', {
+    input: z.object({
+      postId: z.number().nonnegative(),
+      identityCardNumber: z.string().nonempty(),
+    }),
+    resolve: async ({ input }) => {
+      await prisma.postLike.create({
+        data: { postId: input.postId, userId: input.identityCardNumber },
+      });
+      ee.emit(
+        'post.realtime',
+        await prisma.post.findMany({ include: { Onwer: true, PostLike: true } })
+      );
+    },
+  })
+  .mutation('post.unlike', {
+    input: z.object({
+      postId: z.number().nonnegative(),
+      identityCardNumber: z.string().nonempty(),
+    }),
+    resolve: async ({ input }) => {
+      await prisma.postLike.delete({
+        where: { postId_userId: { postId: input.postId, userId: input.identityCardNumber } },
+      });
+      ee.emit(
+        'post.realtime',
+        await prisma.post.findMany({ include: { Onwer: true, PostLike: true } })
+      );
+    },
   });
 
 export type AppRouter = typeof appRouter;
