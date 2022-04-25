@@ -78,7 +78,13 @@ export const Posts: FunctionComponent = () => {
   }, [scrollHandler]);
 
   const inner = (
-    <div style={{ paddingBottom: '70px', fontFamily: "'JetBrains Mono', 'ui-monospace'" }}>
+    <div
+      style={{
+        position: 'relative',
+        paddingBottom: '70px',
+        fontFamily: "'JetBrains Mono', 'ui-monospace'",
+      }}
+    >
       <div
         className="sticky bg-black top-0 border-b-2 border-console flex h-[60px] items-center px-7 justify-between mb-4"
         style={{ zIndex: 1000 }}
@@ -95,7 +101,7 @@ export const Posts: FunctionComponent = () => {
         <span className="text-lg font-jbmono text-console">{'>'}</span>
       </div>
       {!posts.data ? (
-        <Loading type="points" />
+        <Loading type="points" css={{ mx: '$10' }} />
       ) : posts.data.length === 0 ? (
         <Text
           color="success"
@@ -147,7 +153,15 @@ export const Posts: FunctionComponent = () => {
             </Card>
           ))
       )}
-      <Container css={{ position: 'fixed', bottom: '$10', zIndex: '$2' }}>
+      <Container
+        css={{
+          width: '100%',
+          maxWidth: 'inherit',
+          position: 'fixed',
+          bottom: '$10',
+          zIndex: '$2',
+        }}
+      >
         {user ? (
           <Input
             aria-label="message-input-box"
